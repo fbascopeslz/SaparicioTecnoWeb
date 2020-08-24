@@ -66,7 +66,7 @@ class UserController extends Controller
         $usuario->telefono = $request->telefono;
         $usuario->email = $request->email;
         $usuario->usuario = $request->usuario;
-        $usuario->password = md5($request->password);
+        $usuario->password = bcrypt($request->password);
         $usuario->idrol = $request->idrol;
 
         $usuario->save();       
@@ -89,7 +89,7 @@ class UserController extends Controller
         $usuario->telefono = $request->telefono;
         $usuario->email = $request->email;
         $usuario->usuario = $request->usuario;
-        $usuario->password = md5($request->password);
+        $usuario->password = bcrypt($request->password);
         $usuario->idrol = $request->idrol;        
                         
         $usuario->save();       

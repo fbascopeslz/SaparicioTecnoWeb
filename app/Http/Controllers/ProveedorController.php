@@ -39,6 +39,25 @@ class ProveedorController extends Controller
         ];
     }
 
+
+    //metodo para el Ingreso
+    public function selectProveedor(Request $request) 
+    {
+        //Si la peticion no es de Ajax redirige a la ruta '/'
+        if (!$request->ajax()) {
+            //return redirect('/');
+        }
+
+        $filtro = $request->filtro;
+        $proveedores = Proveedor::where('proveedor.nombres', 'like', '%'.$filtro.'%')
+        ->orWhere('proveedor.numdocumento', 'like', '%'.$filtro.'%')
+        ->select('proveedor.id', 'proveedor.nombres', 'proveedor.numdocumento')
+        ->orderBy('proveedor.nombres', 'asc')
+        ->get();
+
+        return ['proveedores' => $proveedores];
+    }
+
     
     public function store(Request $request)
     {

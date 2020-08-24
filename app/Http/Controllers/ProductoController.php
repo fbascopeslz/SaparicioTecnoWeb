@@ -46,6 +46,45 @@ class ProductoController extends Controller
         ];
     }
 
+
+    //Metodo para el Ingreso
+    public function listarProductos(Request $request)
+    {
+        //Si la peticion no es de Ajax redirige a la ruta '/'
+        if (!$request->ajax()) {
+            //return redirect('/');
+        }
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+        if ($buscar == '') {
+            $productos = Producto::orderBy('id', 'desc')->paginate(10);
+        } else {
+            $productos = Producto::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);         
+        }        
+
+        return ['productos' => $productos];
+    }
+
+
+    //Metodo para el Ingreso
+    public function buscarProducto(Request $request)
+    {
+        //Si la peticion no es de Ajax redirige a la ruta '/'
+        if (!$request->ajax()) {
+            return redirect('/');
+        }
+
+        $filtro = $request->filtro;
+        $productos = Producto::where('nombre', 'like', '%'.$filtro.'%')
+                            ->orderBy('id', 'desc')
+                            ->take(1)
+                            ->get();
+        
+        return ['productos' => $productos];
+    }
+
     
     public function store(Request $request)
     {
