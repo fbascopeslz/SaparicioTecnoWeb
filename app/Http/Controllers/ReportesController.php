@@ -12,8 +12,7 @@ use Dompdf\Dompdf;
 class ReportesController extends Controller
 {
     public function getVentas()
-    {
-        /*
+    {        /*
         $ventas = DB::select("SELECT\n"
                         + "venta.id,\n"
                         + "venta.fecha,\n"
@@ -29,10 +28,10 @@ class ReportesController extends Controller
                         + "ORDER BY venta.id ASC");
 
         $dompdf = new Dompdf();
-
-        $dompdf = \PDF::loadView('pdf.ventaspdf', ['ventas' => $ventas]);  
-        
-        return $pdf->download('ventas.pdf');
+        $dompdf->loadView('pdf.ventaspdf', ['ventas' => $ventas]);  
+        $dompdf->setPaper('A4', 'landscape');
+        return $dompdf->download('ventas.pdf');
         */
     }
+
 }
