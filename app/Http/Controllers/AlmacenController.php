@@ -41,6 +41,22 @@ class AlmacenController extends Controller
         ];
     }
 
+
+    //Metodo para el Ingreso
+    public function getAlmacenes(Request $request)
+    {
+        //Si la peticion no es de Ajax redirige a la ruta '/'
+        if (!$request->ajax()) {
+            return redirect('/');
+        }
+
+        $almacenes = Almacen::select('almacen.id', 'almacen.nombre')
+        ->orderBy('id', 'asc')
+        ->get();       
+
+        return ['almacenes' => $almacenes];
+    }
+
     
     public function store(Request $request)
     {

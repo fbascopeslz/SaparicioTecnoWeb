@@ -30,7 +30,6 @@ Vue.component('Usuario', require('./components/Usuario.vue').default);
 Vue.component('Ingreso', require('./components/Ingreso.vue').default);
 
 
-
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
     load: {

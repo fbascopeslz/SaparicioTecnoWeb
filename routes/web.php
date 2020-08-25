@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
         Route::post('/almacen/actualizar', 'AlmacenController@update');
         Route::put('/almacen/desactivar', 'AlmacenController@desactivar');
         Route::put('/almacen/activar', 'AlmacenController@activar');
+        Route::get('/almacen/getAlmacenes', 'AlmacenController@getAlmacenes');
 
         Route::get('/ingreso', 'IngresoController@index');
         Route::post('/ingreso/registrar', 'IngresoController@store');
@@ -97,6 +98,7 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
         Route::post('/almacen/actualizar', 'AlmacenController@update');
         Route::put('/almacen/desactivar', 'AlmacenController@desactivar');
         Route::put('/almacen/activar', 'AlmacenController@activar');
+        Route::get('/almacen/getAlmacenes', 'AlmacenController@getAlmacenes');
 
         Route::get('/ingreso', 'IngresoController@index');
         Route::post('/ingreso/registrar', 'IngresoController@store');

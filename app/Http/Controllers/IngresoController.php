@@ -85,8 +85,9 @@ class IngresoController extends Controller
 
         $id = $request->id;        
 
-        $detalles = DetalleIngreso::join('producto', 'detalleingreso.idproducto', '=', 'producto.id')        
-        ->select('detalleingreso.cantidad', 'detalleingreso.preciocompra as precio', 'producto.nombre as producto')
+        $detalles = DetalleIngreso::join('producto', 'detalleingreso.idproducto', '=', 'producto.id')
+        ->join('almacen', 'detalleingreso.idalmacen', '=', 'almacen.id')     
+        ->select('detalleingreso.cantidad', 'detalleingreso.preciocompra as precio', 'producto.nombre as producto', 'almacen.nombre as almacen')
         ->where('detalleingreso.idingreso', '=', $id)
         ->orderBy('detalleingreso.id', 'desc')        
         ->get();
@@ -127,7 +128,7 @@ class IngresoController extends Controller
                 $detalle->preciocompra = $det['precio'];
                 $detalle->idingreso = $ingreso->id;
                 $detalle->idproducto = $det['idproducto'];
-                $detalle->idalmacen = 1;//$det['idalmacen'];
+                $detalle->idalmacen = $det['idalmacen'];
                 $detalle->save();
             }
 

@@ -13,7 +13,8 @@
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
-                <!--Listado-->
+
+                <!--Listado Ingresos-->
                 <template v-if="listado == 1">                                    
                     <div class="card-body">
                         <div class="form-group row">
@@ -88,8 +89,9 @@
                         </nav>
                     </div>
                 </template>
-                <!--Fin Listado-->
-                <!--Detalle-->
+                <!--Fin-->
+
+                <!--Nuevo Ingreso-->
                 <template v-else-if="listado == 0">                                    
                     <div class="card-body">
                         <div class="form-group row border">
@@ -134,15 +136,26 @@
 
                         </div>
                         <div class="form-group row border">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Producto <span style="color: red;" v-show="idProducto==0">(*Seleccione)</span></label>
-                                    <div class="form-inline">
-                                        <input type="text" class="form-control" v-model="nombreProducto" @keyup.enter="buscarProductos()" placeholder="Ingrese Producto">
-                                        <button @click="abrirModal()" class="btn btn-primary">...</button>
+                                    <div class="form-inline">                                       
                                         <input type="text" readonly class="form-control" v-model="producto">
+                                        <button @click="abrirModal()" class="btn btn-primary">...</button>                                        
                                     </div>
-                                    <label>(*)Presione Enter para la busqueda</label>
+                                    <label>(*)Presione el boton para la busqueda</label>
+                                </div>                                
+                            </div>
+                            <div class="col-md-3">                                
+                                <div class="form-group">
+                                    <label>Almacen <span style="color: red;" v-show="idAlmacen==0">(*Seleccione)</span></label>
+                                    <div class="form-inline">
+                                        <select class="form-control" v-model="idAlmacen">
+                                            <option value="0">Seleccione un Almacen</option>
+                                            <option v-for="almacen in arrayAlmacenes" :key="almacen.id" :value="almacen.id" v-text="almacen.nombre"></option>
+                                        </select>                                        
+                                    </div>
+                                    <label>(*)Seleccione una opcion</label>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -169,19 +182,21 @@
                                     <thead>
                                         <th>Opciones</th>
                                         <th>Producto</th>
+                                        <th>Almacen</th>
                                         <th>Precio</th>
                                         <th>Cantidad</th>
                                         <th>Subtotal</th>
                                     </thead>
 
                                     <tbody v-if="arrayDetalles.length">
-                                        <tr v-for="(detalle, index) in arrayDetalles" :key="detalle.idproducto">
+                                        <tr v-for="(detalle, index) in arrayDetalles" :key="index">
                                             <td>
                                                 <button @click="eliminarDetalle(index)" type="button" class="btn btn-danger btn-sm">
                                                     <i class="icon-close"></i>
                                                 </button>
                                             </td>
                                             <td v-text="detalle.producto"></td>
+                                            <td v-text="detalle.almacen"></td>
                                             <td>
                                                 <input v-model="detalle.precio" type="number" value="3" class="form-control">
                                             </td>
@@ -193,14 +208,14 @@
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
-                                            <td colspan="4" align="right"><strong>MONTO TOTAL</strong></td>
+                                            <td colspan="5" align="right"><strong>MONTO TOTAL</strong></td>
                                             <td>Bs. {{ totalCompra = calcularTotal }}</td>
                                         </tr>                                                                 
                                     </tbody>
 
                                     <tbody v-else>
                                         <tr>
-                                            <td colspan="5">No hay Productos agregados</td>
+                                            <td colspan="6">No hay Productos agregados</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -214,8 +229,9 @@
                         </div>
                     </div>
                 </template>
-                <!--Fin Detalle-->
-                <!--Ver Ingreso-->
+                <!--Fin-->
+
+                <!--Ver Cabezera Ingreso y Detalles-->
                 <template v-else-if="listado == 2">                                    
                     <div class="card-body">
                         <div class="form-group row border">
@@ -243,14 +259,17 @@
                                 <table class="table table-bordered table-striped table-sm">
                                     <thead>                                        
                                         <th>Producto</th>
+                                        <th>Almacen</th>
                                         <th>Precio</th>
                                         <th>Cantidad</th>
                                         <th>Subtotal</th>
                                     </thead>
 
                                     <tbody v-if="arrayDetalles.length">
-                                        <tr v-for="detalle in arrayDetalles" :key="detalle.producto">                                            
+                                        <tr v-for="(detalle, index) in arrayDetalles" :key="index">                                            
                                             <td v-text="detalle.producto">                                                
+                                            </td>
+                                            <td v-text="detalle.almacen">                                                
                                             </td>
                                             <td v-text="detalle.precio">                                                
                                             </td>
@@ -261,14 +280,14 @@
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
-                                            <td colspan="3" align="right"><strong>MONTO TOTAL</strong></td>
+                                            <td colspan="4" align="right"><strong>MONTO TOTAL</strong></td>
                                             <td>Bs. {{ totalCompra  }}</td>
                                         </tr>                                                                 
                                     </tbody>
 
                                     <tbody v-else>
                                         <tr>
-                                            <td colspan="4">No hay Productos agregados</td>
+                                            <td colspan="5">No hay Productos agregados</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -281,13 +300,13 @@
                         </div>
                     </div>
                 </template>
-                <!--Fin Ver Ingreso-->
+                <!--Fin-->
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
 
-        <!--Inicio del modal agregar/actualizar-->
-        <div class="modal fade" tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none; overflow-y: scroll;" aria-hidden="true">
+        <!--Modal para Productos-->
+        <div class="modal" tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none; overflow-y: scroll;" aria-hidden="true">
             <div class="modal-dialog modal-primary modal-lg" role="document">
                 <div class="modal-content">
 
@@ -328,7 +347,7 @@
                                 <tbody>
                                     <tr v-for="producto in arrayProducto" :key="producto.id">
                                         <td>
-                                            <button type="button" @click="agregarDetalleModal(producto)" class="btn btn-success btn-sm">
+                                            <button type="button" @click="seleccionarProducto(producto)" class="btn btn-success btn-sm">
                                                 <i class="icon-check"></i>
                                             </button> 
                                         </td>
@@ -379,7 +398,7 @@
             return {               
                 idIngreso: 0,
                 totalCompra: 0.0,
-                tipoComprobante: 'NOTAVENTA',
+                tipoComprobante: '',
                 numComprobante: '',
                 estado: 'REALIZADO',                
                 idProveedor: 0,
@@ -388,12 +407,19 @@
                 arrayIngresos: [],
                 arrayDetalles: [],
 
+                idAlmacen: 0,
+                almacen: '',
+                
+                arrayAlmacenes: [],
+
                 arrayProveedor: [],
 
                 arrayProducto: [],
                 idProducto: 0,
-                nombreProducto: '',
-                producto: '',        
+                producto: '',
+
+                //nombreProducto: '',
+                                        
                 precio: 0.0,
                 cantidad: 0,     
                 
@@ -538,6 +564,7 @@
                 console.log(val1);
             },
 
+            /*
             buscarProductos() {
                 let me = this;                
 
@@ -567,7 +594,8 @@
                     .then(function () {
                         // always executed
                     });
-            },            
+            },    
+            */        
 
             cambiarPagina(page, buscar, criterio) {
                 let me = this;
@@ -579,22 +607,30 @@
                 me.listarIngresos(page, buscar, criterio);
             },
 
-            existeProducto(id) {
-                var sw = false;
+            existeProductoYAlmacen(idProducto, idAlmacen) {            
                 for (let i = 0; i < this.arrayDetalles.length; i++) {
-                    if (this.arrayDetalles[i].idproducto == id) {
-                        sw = true;
+                    if (this.arrayDetalles[i].idproducto == idProducto && this.arrayDetalles[i].idalmacen == idAlmacen) {
+                        return true;
                     }                    
                 }
-                return sw;
+                return false;                
+            },
+
+            buscarNombreAlmacenById(idAlmacen){
+                for (let i = 0; i < this.arrayAlmacenes.length; i++) {
+                    if (this.arrayAlmacenes[i].id == idAlmacen) {
+                        return this.arrayAlmacenes[i].nombre;
+                    }                                        
+                }
+                return '';
             },
 
             agregarDetalle() {
                 let me = this;
-                if (me.idProducto == 0 || me.cantidad == 0 || me.precio ==0) {
+                if (me.idProducto == 0 || me.idAlmacen == 0 || me.cantidad == 0 || me.precio ==0) {
                     
                 } else {
-                    if (me.existeProducto(me.idProducto)) {
+                    if (me.existeProductoYAlmacen(me.idProducto, me.idAlmacen)) {
                         //Alerta de SweetAlert                        
                         Swal.fire({
                             icon: 'error',
@@ -605,12 +641,18 @@
                         me.arrayDetalles.push({
                             idproducto: me.idProducto,
                             producto: me.producto,
+                            idalmacen: me.idAlmacen,
+                            almacen: me.buscarNombreAlmacenById(me.idAlmacen),                           
                             cantidad: me.cantidad,
                             precio: me.precio
                         });
-                        me.nombreProducto = '';
+
+                        //Limpiar variables
+                        //me.nombreProducto = '';
                         me.idProducto = 0;
+                        me.idAlmacen = 0;
                         me.producto = '';
+                        me.almacen = '';
                         me.cantidad = 0;
                         me.precio = 0;
                     }                                        
@@ -622,6 +664,8 @@
                 me.arrayDetalles.splice(index, 1);
             },
 
+
+            /*
             agregarDetalleModal(data = []) {
                 let me = this;
 
@@ -640,6 +684,15 @@
                         precio: 1
                     });                    
                 }
+            },
+            */
+
+
+            seleccionarProducto(producto){
+                this.producto = producto.nombre;
+                this.idProducto = producto.id;
+
+                this.cerrarModal();
             },
 
             listarProductos(buscar, criterio) {
@@ -662,8 +715,7 @@
                     .then(function () {
                         // always executed
                     });
-            },
-
+            },                                              
 
             validarIngreso() {
                 this.errorIngreso = 0;                
@@ -790,7 +842,34 @@
             abrirModal() {   
                 this.arrayProducto = [];                             
                 this.modal = 1;
-                this.tituloModal = "Seleccione uno o varios Productos";                                
+                this.tituloModal = "Seleccione uno o varios Productos";
+
+                //Llenar array Productos
+                this.listarProductos('', 'nombre');
+            },
+
+
+            getAlmacenes() {
+                let me = this;
+
+                var url = '/almacen/getAlmacenes';
+                
+                axios.get(url)
+                    .then(function (response) {
+                        // handle success
+                        console.log(response);
+
+                        var respuesta = response.data;
+                        me.arrayAlmacenes = respuesta.almacenes;
+                        
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+                    .then(function () {
+                        // always executed
+                    });
             },
 
 
@@ -809,10 +888,21 @@
                 me.cantidad = 0;
                 me.precio = 0.0;
                 me.arrayDetalles = [];
+
+                //llenar el ArrayAlmacenes
+                this.getAlmacenes();
             },
 
             ocultarDetalle() {
                 this.listado = 1;
+
+                //Limpiar variables
+                this.arrayDetalles = [];
+                this.proveedor = '';
+                this.tipoComprobante = '';
+                this.numComprobante = '';
+                this.totalCompra = 0.0;
+
             },
 
             verIngreso(id) {
