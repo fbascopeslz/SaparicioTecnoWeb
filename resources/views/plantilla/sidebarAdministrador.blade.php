@@ -7,7 +7,7 @@
         <li @click="menu=0" class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-calendar-alt"></i>
-                <p>Calendar</p>
+                <p>Inicio</p>
             </a>
         </li>
 
@@ -115,28 +115,17 @@
                 </li>                
             </ul>
         </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    Reportes
-                    <i class="right fas fa-angle-left"></i>
-                </p>
+        <li @click="menu=11" class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>Reportes</p>
             </a>
-            <ul class="nav nav-treeview">
-                <li @click="menu=11" class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Reporte Ingresos</p>
-                    </a>
-                </li>
-                <li @click="menu=12" class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Reporte Ventas</p>
-                    </a>
-                </li>                
-            </ul>
+        </li>
+        <li @click="menu=12" class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>Estadisticas</p>
+            </a>
         </li>
 
     </ul>

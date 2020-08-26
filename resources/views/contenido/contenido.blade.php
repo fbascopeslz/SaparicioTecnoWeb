@@ -52,12 +52,12 @@
             </template>
 
             <template v-if="menu==11">
-                <h1>Reporte Ingresos</h1>
+                <Reportes></Reportes>
             </template>
 
             <template v-if="menu==12">
-                <h1>Reporte Ventas</h1>
-            </template>                
+                <Estadisticas></Estadisticas>
+            </template>              
 
         @elseif(Auth::user()->idrol == 2)
             <template v-if="menu==2">

@@ -70,6 +70,19 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
         Route::get('/ingreso/obtenerCabezeraIngreso', 'IngresoController@obtenerCabezeraIngreso');
         Route::get('/ingreso/obtenerDetallesIngreso', 'IngresoController@obtenerDetallesIngreso');
 
+
+        Route::get('/reporteVentas', 'ReportesController@reporteVentas')->name('reporteVentas');
+        Route::get('/reporteIngresos', 'ReportesController@reporteIngresos')->name('reporteIngresos');
+        Route::get('/reporteProductos', 'ReportesController@reporteProductos')->name('reporteProductos');
+        Route::get('/reporteInventario', 'ReportesController@reporteInventario')->name('reporteInventario');
+
+
+        Route::get('/estadisticaProductosMasVendidos', 'EstadisticasController@estadisticaProductosMasVendidos');
+        Route::get('/estadisticaClientesMasFieles', 'EstadisticasController@estadisticaClientesMasFieles');
+        Route::get('/estadisticaProveedoresMasSolicitados', 'EstadisticasController@estadisticaProveedoresMasSolicitados');
+        Route::get('/estadisticasFinancieras', 'EstadisticasController@estadisticasFinancieras');
+
+
     }); //Rutas para Administrador
         
     Route::group(['middleware' => ['Vendedor']], function(){

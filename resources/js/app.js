@@ -29,6 +29,9 @@ Vue.component('Rol', require('./components/Rol.vue').default);
 Vue.component('Usuario', require('./components/Usuario.vue').default);
 Vue.component('Ingreso', require('./components/Ingreso.vue').default);
 
+Vue.component('Reportes', require('./components/Reportes.vue').default);
+Vue.component('Estadisticas', require('./components/Estadisticas.vue').default);
+
 
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
