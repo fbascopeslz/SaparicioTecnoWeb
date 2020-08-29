@@ -4,20 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ingreso extends Model
+class Venta extends Model
 {
-    protected $table = 'ingreso';
+    protected $table = 'venta';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
     protected $fillable = [
         'fecha', 
         'hora', 
-        'totalcompra', 
-        'tipocomprobante',
-        'numcomprobante', 
+        'total',          
         'estado',
-        'idproveedor',
+        'numcomprobante',
+        'idcliente',
         'idusuario'
     ];
 
@@ -25,8 +24,7 @@ class Ingreso extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function proveedor(){
-        return $this->belongsTo('App\Proveedor');
+    public function cliente(){
+        return $this->belongsTo('App\Cliente');
     }
-    
 }

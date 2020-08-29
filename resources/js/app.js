@@ -28,7 +28,7 @@ Vue.component('Proveedor', require('./components/Proveedor.vue').default);
 Vue.component('Rol', require('./components/Rol.vue').default);
 Vue.component('Usuario', require('./components/Usuario.vue').default);
 Vue.component('Ingreso', require('./components/Ingreso.vue').default);
-
+Vue.component('Venta', require('./components/Venta.vue').default);
 Vue.component('Reportes', require('./components/Reportes.vue').default);
 Vue.component('Estadisticas', require('./components/Estadisticas.vue').default);
 

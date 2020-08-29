@@ -19,7 +19,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/main'); //Si esta logeado redirija a esta ruta
+            return redirect('main'); //Si esta logeado redirija a esta ruta
         }
 
         return $next($request);

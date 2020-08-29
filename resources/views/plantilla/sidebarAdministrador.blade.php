@@ -83,13 +83,7 @@
                         <i class="far fa-circle nav-icon"></i>
                         <p>Clientes</p>
                     </a>
-                </li>
-                <li @click="menu=8" class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Nota de Venta</p>
-                    </a>
-                </li>                 
+                </li>               
             </ul>
         </li>
         <li class="nav-item has-treeview">
@@ -101,13 +95,13 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                <li @click="menu=9" class="nav-item">
+                <li @click="menu=8" class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Usuarios</p>
                     </a>
                 </li>
-                <li @click="menu=10" class="nav-item">
+                <li @click="menu=9" class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Roles</p>
@@ -115,13 +109,13 @@
                 </li>                
             </ul>
         </li>
-        <li @click="menu=11" class="nav-item">
+        <li @click="menu=10" class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-calendar-alt"></i>
                 <p>Reportes</p>
             </a>
         </li>
-        <li @click="menu=12" class="nav-item">
+        <li @click="menu=11" class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-calendar-alt"></i>
                 <p>Estadisticas</p>

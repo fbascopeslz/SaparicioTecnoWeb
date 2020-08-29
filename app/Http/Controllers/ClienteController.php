@@ -39,6 +39,25 @@ class ClienteController extends Controller
         ];
     }
 
+
+    //metodo para la Venta
+    public function selectCliente(Request $request) 
+    {
+        //Si la peticion no es de Ajax redirige a la ruta '/'
+        if (!$request->ajax()) {
+            //return redirect('/');
+        }
+
+        $filtro = $request->filtro;
+        $clientes = cliente::where('cliente.nombres', 'like', '%'.$filtro.'%')
+        ->orWhere('cliente.numdocumento', 'like', '%'.$filtro.'%')
+        ->select('cliente.id', 'cliente.nombres', 'cliente.numdocumento')
+        ->orderBy('cliente.nombres', 'asc')
+        ->get();
+
+        return ['clientes' => $clientes];
+    }
+
     
     public function store(Request $request)
     {

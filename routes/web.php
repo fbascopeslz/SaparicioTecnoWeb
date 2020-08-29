@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
         Route::post('/cliente/actualizar', 'ClienteController@update');
         Route::put('/cliente/desactivar', 'ClienteController@desactivar');
         Route::put('/cliente/activar', 'ClienteController@activar');
+        Route::get('/proveedor/selectCliente', 'ProveedorController@selectCliente');
 
         Route::get('/proveedor', 'ProveedorController@index');
         Route::post('/proveedor/registrar', 'ProveedorController@store');
@@ -70,12 +71,16 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
         Route::get('/ingreso/obtenerCabezeraIngreso', 'IngresoController@obtenerCabezeraIngreso');
         Route::get('/ingreso/obtenerDetallesIngreso', 'IngresoController@obtenerDetallesIngreso');
 
+        Route::get('/venta', 'VentaController@index');
+        Route::post('/venta/registrar', 'VentaController@store');
+        Route::put('/venta/desactivar', 'VentaController@desactivar');
+        Route::get('/venta/obtenerCabezeraVenta', 'VentaController@obtenerCabezeraVenta');
+        Route::get('/venta/obtenerDetallesVenta', 'VentaController@obtenerDetallesVenta');
 
         Route::get('/reporteVentas', 'ReportesController@reporteVentas')->name('reporteVentas');
         Route::get('/reporteIngresos', 'ReportesController@reporteIngresos')->name('reporteIngresos');
         Route::get('/reporteProductos', 'ReportesController@reporteProductos')->name('reporteProductos');
         Route::get('/reporteInventario', 'ReportesController@reporteInventario')->name('reporteInventario');
-
 
         Route::get('/estadisticaProductosMasVendidos', 'EstadisticasController@estadisticaProductosMasVendidos');
         Route::get('/estadisticaClientesMasFieles', 'EstadisticasController@estadisticaClientesMasFieles');

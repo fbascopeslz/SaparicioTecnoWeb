@@ -32,7 +32,7 @@
             </template>
 
             <template v-if="menu==6">
-                <h1>Ventas</h1>
+                <Venta></Venta>
             </template>
 
             <template v-if="menu==7">
@@ -40,22 +40,18 @@
             </template>
 
             <template v-if="menu==8">
-                <h1>Nota de venta</h1>
-            </template>
-
-            <template v-if="menu==9">
                 <Usuario></Usuario>
             </template>
 
-            <template v-if="menu==10">
+            <template v-if="menu==9">
                 <Rol></Rol>
             </template>
 
-            <template v-if="menu==11">
+            <template v-if="menu==10">
                 <Reportes></Reportes>
             </template>
 
-            <template v-if="menu==12">
+            <template v-if="menu==11">
                 <Estadisticas></Estadisticas>
             </template>              
 
@@ -103,14 +99,6 @@
         @else
 
         @endif
-
-        <template v-if="menu==13">
-            <h1>Ayuda</h1>
-        </template>
-
-        <template v-if="menu==14">
-            <h1>Acerca de...</h1>
-        </template>
         
     @endif    
     
