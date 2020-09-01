@@ -68,6 +68,53 @@ class ProductoController extends Controller
     }
 
 
+    //Metodo para la Venta
+    public function listarInventario(Request $request)
+    {
+        //Si la peticion no es de Ajax redirige a la ruta '/'
+        if (!$request->ajax()) {
+            //return redirect('/');
+        }
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+        if ($buscar == '') {                    
+            $inventario = DB::select("SELECT almacen.nombre AS almacen, 
+                                            producto.nombre AS producto,
+                                            producto.id AS idproducto, 
+		                                    almacen.id AS idalmacen,
+                                            producto.codigo, 
+                                            producto.descripcion,
+                                            producto.precio, 
+                                            producto.image,
+                                            inventario.stock
+                                    FROM producto, inventario, almacen
+                                    WHERE producto.id = inventario.idproducto AND
+                                        inventario.idalmacen = almacen.id
+                                    ORDER BY almacen.id ASC");
+        } else {
+            $inventario = DB::select("SELECT almacen.nombre AS almacen, 
+                                            producto.nombre AS producto,
+                                            producto.id AS idproducto, 
+		                                    almacen.id AS idalmacen,
+                                            producto.codigo, 
+                                            producto.descripcion,
+                                            producto.precio,
+                                            producto.image,
+                                            inventario.stock
+                                    FROM producto, inventario, almacen
+                                    WHERE producto.id = inventario.idproducto AND
+                                        inventario.idalmacen = almacen.id AND ".
+                                        $criterio . "LIKE %" . $buscar . "% ".    
+                                        "ORDER BY almacen.id ASC");
+            $productos = Producto::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);         
+        }                                        
+
+        return ['inventario' => $inventario];
+    }
+
+
     //Metodo para el Ingreso
     public function buscarProducto(Request $request)
     {

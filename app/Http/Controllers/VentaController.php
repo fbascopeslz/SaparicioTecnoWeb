@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Venta;
 use App\DetalleVenta;
 
+use PDF;
+
 
 class VentaController extends Controller
 {
@@ -97,6 +99,34 @@ class VentaController extends Controller
     }
     
 
+    public function generarNotaDeVenta(Request $request, $id) 
+    {
+        $venta = Venta::join('cliente', 'venta.idcliente', '=', 'cliente.id')
+        ->join('usuario', 'venta.idusuario', '=', 'usuario.id')
+        ->select('venta.id', 'venta.fecha', 'venta.hora', 
+            'venta.total', 'venta.estado', 'venta.numcomprobante', 
+            'cliente.nombres as cliente', 'cliente.tipodocumento', 'cliente.numdocumento', 
+            'cliente.direccion', 'cliente.email', 'cliente.telefono', 
+            'usuario.usuario as usuario')
+        ->where('venta.id', '=', $id)
+        ->take(1)
+        ->get();
+
+        $detalles = DetalleVenta::join('producto', 'detalleventa.idproducto', '=', 'producto.id')
+        ->join('almacen', 'detalleventa.idalmacen', '=', 'almacen.id')     
+        ->select('detalleventa.cantidad', 'detalleventa.precioventa as precio', 'detalleventa.descuento as descuento', 
+                'producto.nombre as producto', 'almacen.nombre as almacen')
+        ->where('detalleventa.idventa', '=', $id)
+        ->orderBy('detalleventa.id', 'desc')        
+        ->get();
+
+        $numComprobante = Venta::select('numcomprobante')->where('id', $id)->get();
+
+        $pdf = PDF::loadView('pdf.plantillaNotaDeVenta', ['venta'=>$venta, 'detalles'=>$detalles]);        
+        return $pdf->stream('venta-'.$numComprobante[0]->numcomprobante.'.pdf');        
+    }
+
+
     public function store(Request $request)
     {
         //Si la peticion no es de Ajax redirige a la ruta '/'
@@ -125,7 +155,7 @@ class VentaController extends Controller
             {
                 $detalle = new DetalleVenta();
                 $detalle->cantidad = $det['cantidad'];
-                $detalle->precioventa = $det['precioventa'];
+                $detalle->precioventa = $det['precio'];
                 $detalle->descuento = $det['descuento'];
                 $detalle->idventa = $venta->id;
                 $detalle->idproducto = $det['idproducto'];

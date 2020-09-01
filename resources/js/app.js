@@ -33,6 +33,13 @@ Vue.component('Reportes', require('./components/Reportes.vue').default);
 Vue.component('Estadisticas', require('./components/Estadisticas.vue').default);
 
 
+//Vue loading overlay
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+Vue.use(Loading);
+
+
+//Google Maps
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
     load: {
@@ -50,6 +57,6 @@ Vue.use(VueGoogleMaps, {
 const app = new Vue({
     el: '#app',
     data :{
-        menu : 0
+        menu : 0,                        
     }
 });

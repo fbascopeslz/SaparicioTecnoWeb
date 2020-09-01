@@ -12,9 +12,17 @@
 */
 
 Route::group(['middleware' => ['guest']], function(){
+
     Route::get('/', 'Auth\LoginController@showLoginForm');
-    Route::post('/login', 'Auth\LoginController@login')->name('login');
+
+    //login con el metodo POST es para el formulario de logeo de usuario
+    Route::post('login', 'Auth\LoginController@login');
+
+    //login con el metodo GET es para cuando caduca el tiempo de session de usuario y redirige a esta ruta
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+
 }); //Rutas para invitado
+
 
 
 Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autenticado
@@ -43,13 +51,14 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
         Route::put('/producto/activar', 'ProductoController@activar');
         Route::get('/producto/buscarProducto', 'ProductoController@buscarProducto');
         Route::get('/producto/listarProductos', 'ProductoController@listarProductos');
+        Route::get('/producto/listarInventario', 'ProductoController@listarInventario');
 
         Route::get('/cliente', 'ClienteController@index');
         Route::post('/cliente/registrar', 'ClienteController@store');
         Route::post('/cliente/actualizar', 'ClienteController@update');
         Route::put('/cliente/desactivar', 'ClienteController@desactivar');
         Route::put('/cliente/activar', 'ClienteController@activar');
-        Route::get('/proveedor/selectCliente', 'ProveedorController@selectCliente');
+        Route::get('/cliente/selectCliente', 'ClienteController@selectCliente');
 
         Route::get('/proveedor', 'ProveedorController@index');
         Route::post('/proveedor/registrar', 'ProveedorController@store');
@@ -76,6 +85,7 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
         Route::put('/venta/desactivar', 'VentaController@desactivar');
         Route::get('/venta/obtenerCabezeraVenta', 'VentaController@obtenerCabezeraVenta');
         Route::get('/venta/obtenerDetallesVenta', 'VentaController@obtenerDetallesVenta');
+        Route::get('/venta/generarNotaDeVenta/{id}', 'VentaController@generarNotaDeVenta')->name('notaDeVenta');
 
         Route::get('/reporteVentas', 'ReportesController@reporteVentas')->name('reporteVentas');
         Route::get('/reporteIngresos', 'ReportesController@reporteIngresos')->name('reporteIngresos');

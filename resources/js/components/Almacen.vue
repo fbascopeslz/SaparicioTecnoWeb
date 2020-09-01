@@ -264,7 +264,6 @@
                 //console.log(e.latLng.lng());                       
             },
 
-
             listarAlmacenes(page, buscar, criterio) {
                 let me = this;
 

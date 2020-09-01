@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('auth.login');
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $this->validateLogin($request);
         
         if (Auth::attempt([
@@ -30,14 +32,16 @@ class LoginController extends Controller
         ->withInput(request(['usuario']));
     }
 
-    protected function validateLogin(Request $request){
+    protected function validateLogin(Request $request)
+    {
         $this->validate($request, [
             'usuario' => 'required|string',
             'password' => 'required|string',
         ]);
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
         $request->session()->invalidate();
         return redirect('/');

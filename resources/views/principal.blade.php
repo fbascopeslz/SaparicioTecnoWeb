@@ -144,6 +144,11 @@
       <footer class="main-footer">
         <strong>Copyright &copy; 2020 <a href="http://adminlte.io">GRUPO 10</a>.</strong>
         All rights reserved.
+
+        <div style="text-align:center;">        
+          <div id="sfcjydsj8betbhtt4buygmr5plf77fwtu3d"></div>          
+        </div>
+
         <div class="float-right d-none d-sm-inline-block">
           <b>Version</b> 1.0.0
         </div>
@@ -164,6 +169,10 @@
   <script src="js/app.js"></script> 
 
   <!-- <script src="js/plantilla.js"></script> -->
+
+
+  <script type="text/javascript" src="https://counter3.stat.ovh/private/counter.js?c=jydsj8betbhtt4buygmr5plf77fwtu3d&down=async" async></script>
+  <noscript><a href="https://www.contadorvisitasgratis.com" title="contador web"><img src="https://counter3.stat.ovh/private/contadorvisitasgratis.php?c=jydsj8betbhtt4buygmr5plf77fwtu3d" border="0" title="contador web" alt="contador web"></a></noscript>
 
 
   <!-- jQuery -->
