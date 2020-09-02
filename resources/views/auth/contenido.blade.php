@@ -8,7 +8,7 @@
     <meta name="author" content="Grupo 10">
     <meta name="keyword" content="Sistema para la distribuidora APARICIO">
 
-    <title>Saparicio</title>
+    <title>SAPARICIO</title>
 
     <!-- Icons -->
     <link href="css/font-awesome.min.css" rel="stylesheet">

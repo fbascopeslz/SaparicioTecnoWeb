@@ -115,7 +115,7 @@
         
         data() {
             return {
-                url: 'http://127.0.0.1:8000/',     
+                url: 'http://young-everglades-57516.herokuapp.com/',     
                 
                 fecha1Ventas: '',
                 fecha2Ventas: '',
