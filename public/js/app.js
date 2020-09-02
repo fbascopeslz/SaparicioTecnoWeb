@@ -5908,23 +5908,23 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     reporteProductos: function reporteProductos(tipo) {
       if (tipo == 1) {
-        window.open(this.url + 'reporteProductos?tipo=1');
+        window.open(this.url + 'reporteProductos?tipo=1', '_blank');
       } else {
-        window.open(this.url + 'reporteProductos?tipo=0');
+        window.open(this.url + 'reporteProductos?tipo=0', '_blank');
       }
     },
     reporteInventario: function reporteInventario(tipo) {
       if (tipo == 1) {
-        window.open(this.url + 'reporteInventario?tipo=1');
+        window.open(this.url + 'reporteInventario?tipo=1', '_blank');
       } else {
-        window.open(this.url + 'reporteInventario?tipo=0');
+        window.open(this.url + 'reporteInventario?tipo=0', '_blank');
       }
     },
     reporteVentas: function reporteVentas(tipo) {
       if (tipo == 1) {
-        window.open(this.url + 'reporteVentas?tipo=1&opcion=0');
+        window.open(this.url + 'reporteVentas?tipo=1&opcion=0', '_blank');
       } else {
-        window.open(this.url + 'reporteVentas?tipo=0&opcion=0');
+        window.open(this.url + 'reporteVentas?tipo=0&opcion=0', '_blank');
       }
     },
     reporteVentasRangoFechas: function reporteVentasRangoFechas(tipo) {
@@ -5945,16 +5945,16 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (tipo == 1) {
-        window.open(this.url + 'reporteVentas?tipo=1&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas);
+        window.open(this.url + 'reporteVentas?tipo=1&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas, '_blank');
       } else {
-        window.open(this.url + 'reporteVentas?tipo=0&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas);
+        window.open(this.url + 'reporteVentas?tipo=0&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas, '_blank');
       }
     },
     reporteIngresos: function reporteIngresos(tipo) {
       if (tipo == 1) {
-        window.open(this.url + 'reporteIngresos?tipo=1&opcion=0');
+        window.open(this.url + 'reporteIngresos?tipo=1&opcion=0', '_blank');
       } else {
-        window.open(this.url + 'reporteIngresos?tipo=0&opcion=0');
+        window.open(this.url + 'reporteIngresos?tipo=0&opcion=0', '_blank');
       }
     },
     reporteIngresosRangoFechas: function reporteIngresosRangoFechas(tipo) {
@@ -5975,9 +5975,9 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (tipo == 1) {
-        window.open(this.url + 'reporteIngresos?tipo=1&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos);
+        window.open(this.url + 'reporteIngresos?tipo=1&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos, '_blank');
       } else {
-        window.open(this.url + 'reporteIngresos?tipo=0&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos);
+        window.open(this.url + 'reporteIngresos?tipo=0&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos, '_blank');
       }
     }
   }
@@ -75627,7 +75627,7 @@ var render = function() {
               _c("td", [_vm._v("Reporte de todos los Productos")]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: "#", target: "_blank" } }, [
+                _c("a", { attrs: { href: "#" } }, [
                   _c(
                     "button",
                     {
@@ -75644,7 +75644,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: "#", target: "_blank" } }, [
+                _c("a", { attrs: { href: "#" } }, [
                   _c(
                     "button",
                     {
@@ -75665,7 +75665,7 @@ var render = function() {
               _c("td", [_vm._v("Reporte del Inventario")]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: "#", target: "_blank" } }, [
+                _c("a", { attrs: { href: "#" } }, [
                   _c(
                     "button",
                     {
@@ -75682,7 +75682,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: "#", target: "_blank" } }, [
+                _c("a", { attrs: { href: "#" } }, [
                   _c(
                     "button",
                     {
@@ -75703,7 +75703,7 @@ var render = function() {
               _c("td", [_vm._v("Reporte de todas las Ventas")]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: "#", target: "_blank" } }, [
+                _c("a", { attrs: { href: "#" } }, [
                   _c(
                     "button",
                     {
@@ -75720,7 +75720,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: "#", target: "_blank" } }, [
+                _c("a", { attrs: { href: "#" } }, [
                   _c(
                     "button",
                     {
@@ -75871,7 +75871,7 @@ var render = function() {
               _c("td", [_vm._v("Reporte de todos los Ingresos")]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: "#", target: "_blank" } }, [
+                _c("a", { attrs: { href: "#" } }, [
                   _c(
                     "button",
                     {
@@ -75888,7 +75888,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: "#", target: "_blank" } }, [
+                _c("a", { attrs: { href: "#" } }, [
                   _c(
                     "button",
                     {

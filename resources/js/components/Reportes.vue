@@ -18,19 +18,19 @@
                     <tbody>     
                         <tr>                        
                             <td>Reporte de todos los Productos</td>
-                            <td><a href="#" target="_blank" ><button @click="reporteProductos(0)" class="btn btn-block btn-primary btn-xs">Ver</button></a></td>
-                            <td><a href="#" target="_blank" ><button @click="reporteProductos(1)" class="btn btn-block btn-success btn-xs">Descargar</button></a></td>                        
+                            <td><a href="#"><button @click="reporteProductos(0)" class="btn btn-block btn-primary btn-xs">Ver</button></a></td>
+                            <td><a href="#"><button @click="reporteProductos(1)" class="btn btn-block btn-success btn-xs">Descargar</button></a></td>                        
                         </tr> 
                         <tr>                        
                             <td>Reporte del Inventario</td>
-                            <td><a href="#" target="_blank" ><button @click="reporteInventario(0)" class="btn btn-block btn-primary btn-xs">Ver</button></a></td>
-                            <td><a href="#" target="_blank" ><button @click="reporteInventario(1)" class="btn btn-block btn-success btn-xs">Descargar</button></a></td>                        
+                            <td><a href="#"><button @click="reporteInventario(0)" class="btn btn-block btn-primary btn-xs">Ver</button></a></td>
+                            <td><a href="#"><button @click="reporteInventario(1)" class="btn btn-block btn-success btn-xs">Descargar</button></a></td>                        
                         </tr>
 
                         <tr>                        
                             <td>Reporte de todas las Ventas</td>
-                            <td><a href="#" target="_blank" ><button @click="reporteVentas(0)" class="btn btn-block btn-primary btn-xs">Ver</button></a></td>
-                            <td><a href="#" target="_blank" ><button @click="reporteVentas(1)" class="btn btn-block btn-success btn-xs">Descargar</button></a></td>                        
+                            <td><a href="#"><button @click="reporteVentas(0)" class="btn btn-block btn-primary btn-xs">Ver</button></a></td>
+                            <td><a href="#"><button @click="reporteVentas(1)" class="btn btn-block btn-success btn-xs">Descargar</button></a></td>                        
                         </tr>                                                
                         <tr>
                             <td >
@@ -67,8 +67,8 @@
 
                         <tr>                        
                             <td>Reporte de todos los Ingresos</td>
-                            <td><a href="#" target="_blank" ><button @click="reporteIngresos(0)" class="btn btn-block btn-primary btn-xs">Ver</button></a></td>
-                            <td><a href="#" target="_blank" ><button @click="reporteIngresos(1)" class="btn btn-block btn-success btn-xs">Descargar</button></a></td>                        
+                            <td><a href="#"><button @click="reporteIngresos(0)" class="btn btn-block btn-primary btn-xs">Ver</button></a></td>
+                            <td><a href="#"><button @click="reporteIngresos(1)" class="btn btn-block btn-success btn-xs">Descargar</button></a></td>                        
                         </tr>                                                
                         <tr>
                             <td >
@@ -133,25 +133,25 @@
         methods: {            
             reporteProductos(tipo) {
                 if (tipo == 1) {
-                    window.open(this.url + 'reporteProductos?tipo=1');    
+                    window.open(this.url + 'reporteProductos?tipo=1', '_blank');    
                 } else {
-                    window.open(this.url + 'reporteProductos?tipo=0');    
+                    window.open(this.url + 'reporteProductos?tipo=0', '_blank');    
                 }                
             },
             
             reporteInventario(tipo) {
                 if (tipo == 1) {
-                    window.open(this.url + 'reporteInventario?tipo=1');    
+                    window.open(this.url + 'reporteInventario?tipo=1', '_blank');    
                 } else {
-                    window.open(this.url + 'reporteInventario?tipo=0');    
+                    window.open(this.url + 'reporteInventario?tipo=0', '_blank');    
                 }                
             },
 
             reporteVentas(tipo) {
                 if (tipo == 1) {
-                    window.open(this.url + 'reporteVentas?tipo=1&opcion=0');    
+                    window.open(this.url + 'reporteVentas?tipo=1&opcion=0', '_blank');    
                 } else {
-                    window.open(this.url + 'reporteVentas?tipo=0&opcion=0');    
+                    window.open(this.url + 'reporteVentas?tipo=0&opcion=0', '_blank');    
                 }                
             },
 
@@ -173,17 +173,17 @@
                 } 
 
                 if (tipo == 1) {
-                    window.open(this.url + 'reporteVentas?tipo=1&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas);    
+                    window.open(this.url + 'reporteVentas?tipo=1&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas, '_blank');    
                 } else {
-                    window.open(this.url + 'reporteVentas?tipo=0&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas);    
+                    window.open(this.url + 'reporteVentas?tipo=0&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas, '_blank');    
                 }                
             },
 
             reporteIngresos(tipo) {
                 if (tipo == 1) {
-                    window.open(this.url + 'reporteIngresos?tipo=1&opcion=0');    
+                    window.open(this.url + 'reporteIngresos?tipo=1&opcion=0', '_blank');    
                 } else {
-                    window.open(this.url + 'reporteIngresos?tipo=0&opcion=0');    
+                    window.open(this.url + 'reporteIngresos?tipo=0&opcion=0', '_blank');    
                 }                
             },
 
@@ -205,9 +205,9 @@
                 } 
 
                 if (tipo == 1) {
-                    window.open(this.url + 'reporteIngresos?tipo=1&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos);    
+                    window.open(this.url + 'reporteIngresos?tipo=1&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos, '_blank');    
                 } else {
-                    window.open(this.url + 'reporteIngresos?tipo=0&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos);    
+                    window.open(this.url + 'reporteIngresos?tipo=0&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos, '_blank');    
                 }                
             },
         },
