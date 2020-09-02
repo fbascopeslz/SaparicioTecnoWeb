@@ -5908,9 +5908,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     reporteProductos: function reporteProductos(tipo) {
       if (tipo == 1) {
-        window.open(this.url + 'reporteProductos?tipo=1', '_blank');
+        window.open(this.url + 'reporteProductos?tipo=1');
       } else {
-        window.open(this.url + 'reporteProductos?tipo=0', '_blank');
+        window.open(this.url + 'reporteProductos?tipo=0');
       }
     },
     reporteInventario: function reporteInventario(tipo) {
@@ -5922,9 +5922,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     reporteVentas: function reporteVentas(tipo) {
       if (tipo == 1) {
-        window.open(this.url + 'reporteVentas?tipo=1&opcion=0', '_blank');
+        window.open(this.url + 'reporteVentas?tipo=1&opcion=0');
       } else {
-        window.open(this.url + 'reporteVentas?tipo=0&opcion=0', '_blank');
+        window.open(this.url + 'reporteVentas?tipo=0&opcion=0');
       }
     },
     reporteVentasRangoFechas: function reporteVentasRangoFechas(tipo) {
@@ -5945,16 +5945,16 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (tipo == 1) {
-        window.open(this.url + 'reporteVentas?tipo=1&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas, '_blank');
+        window.open(this.url + 'reporteVentas?tipo=1&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas);
       } else {
-        window.open(this.url + 'reporteVentas?tipo=0&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas, '_blank');
+        window.open(this.url + 'reporteVentas?tipo=0&opcion=1&fecha1=' + this.fecha1Ventas + '&fecha2=' + this.fecha2Ventas);
       }
     },
     reporteIngresos: function reporteIngresos(tipo) {
       if (tipo == 1) {
-        window.open(this.url + 'reporteIngresos?tipo=1&opcion=0', '_blank');
+        window.open(this.url + 'reporteIngresos?tipo=1&opcion=0');
       } else {
-        window.open(this.url + 'reporteIngresos?tipo=0&opcion=0', '_blank');
+        window.open(this.url + 'reporteIngresos?tipo=0&opcion=0');
       }
     },
     reporteIngresosRangoFechas: function reporteIngresosRangoFechas(tipo) {
@@ -5975,9 +5975,9 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (tipo == 1) {
-        window.open(this.url + 'reporteIngresos?tipo=1&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos, '_blank');
+        window.open(this.url + 'reporteIngresos?tipo=1&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos);
       } else {
-        window.open(this.url + 'reporteIngresos?tipo=0&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos, '_blank');
+        window.open(this.url + 'reporteIngresos?tipo=0&opcion=1&fecha1=' + this.fecha1Ingresos + '&fecha2=' + this.fecha2Ingresos);
       }
     }
   }
