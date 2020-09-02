@@ -141,9 +141,9 @@
             
             reporteInventario(tipo) {
                 if (tipo == 1) {
-                    window.open(this.url + 'reporteInventario?tipo=1', '_blank');    
+                    window.open(this.url + 'reporteInventario?tipo=1');    
                 } else {
-                    window.open(this.url + 'reporteInventario?tipo=0', '_blank');    
+                    window.open(this.url + 'reporteInventario?tipo=0');    
                 }                
             },
 
