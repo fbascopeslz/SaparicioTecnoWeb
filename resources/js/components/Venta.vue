@@ -156,8 +156,8 @@
                                 <input type="number" value="0" class="form-control" v-model="cantidad" min="1">                                                                        
                             </div>
                             <div class="form-group col-md-3">                                        
-                                <label>Descuento</label>
-                                <input type="number" value="0" class="form-control" v-model="descuento" min="0.00" max="1.00">                                        
+                                <label>Descuento %</label>
+                                <input type="number" value="0" class="form-control" v-model="descuento" min="0" max="100">                                        
                             </div>
                             <div class="form-group col-md-2">                                                                   
                                 <button @click="agregarDetalle()" class="btn btn-success form-control btnagregar"><i class="icon-plus"></i></button>                                        
@@ -184,7 +184,7 @@
                                         <th>Almacen</th>
                                         <th>Precio</th>
                                         <th>Cantidad</th>
-                                        <th>Descuento</th>
+                                        <th>Descuento %</th>
                                         <th>Subtotal</th>
                                     </thead>
 
@@ -207,7 +207,7 @@
                                                 <input v-model="detalle.descuento" type="number" value="0" class="form-control">
                                             </td>
                                             <td>
-                                                {{ ((detalle.precio * detalle.cantidad) - (detalle.precio * detalle.cantidad * detalle.descuento)).toFixed(2) }}
+                                                {{ ((detalle.precio * detalle.cantidad) - (detalle.precio * detalle.cantidad * detalle.descuento / 100)).toFixed(2) }}
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
@@ -260,7 +260,7 @@
                                         <th>Almacen</th>
                                         <th>Precio</th>
                                         <th>Cantidad</th>
-                                        <th>Descuento</th>
+                                        <th>Descuento %</th>
                                         <th>Subtotal</th>
                                     </thead>
 
@@ -277,7 +277,7 @@
                                             <td v-text="detalle.descuento">                                                
                                             </td>
                                             <td>
-                                                {{ ((detalle.precio * detalle.cantidad) - (detalle.precio * detalle.cantidad * detalle.descuento)).toFixed(2) }}
+                                                {{ ((detalle.precio * detalle.cantidad) - (detalle.precio * detalle.cantidad * detalle.descuento / 100)).toFixed(2) }}
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
@@ -423,7 +423,7 @@
                 stock: 0,                                                                        
                 precio: 0.0,
                 cantidad: 0,
-                descuento: 0.0,  
+                descuento: 0,  
                 
                 //Mostrar Venta y Detalles
                 cliente: '',
@@ -515,7 +515,7 @@
                 var resultado = 0.0;
                 for (let i = 0; i < this.arrayDetalles.length; i++) {
                     resultado += (this.arrayDetalles[i].precio * this.arrayDetalles[i].cantidad) - 
-                        (this.arrayDetalles[i].precio * this.arrayDetalles[i].cantidad * this.arrayDetalles[i].descuento);                    
+                        (this.arrayDetalles[i].precio * this.arrayDetalles[i].cantidad * this.arrayDetalles[i].descuento / 100);                    
                 }
 
                 //Redondear a 2 decimales
@@ -662,7 +662,7 @@
                         me.stock = 0;
                         me.cantidad = 0;
                         me.precio = 0.0;
-                        me.descuento = 0.0;
+                        me.descuento = 0;
                     }                                        
                 }                 
             },
@@ -764,7 +764,7 @@
                     me.idProducto = 0;
                     me.cantidad = 0;
                     me.precio = 0.0;
-                    me.descuento = 0.0;
+                    me.descuento = 0;
                     me.stock = 0.0;
                     me.arrayDetalles = [];                    
 
@@ -858,7 +858,7 @@
                 me.idProducto = 0;
                 me.cantidad = 0;
                 me.precio = 0.0;
-                me.descuento = 0.0;
+                me.descuento = 0;
                 me.arrayDetalles = [];
             },
 

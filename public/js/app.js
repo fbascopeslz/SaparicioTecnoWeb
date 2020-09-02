@@ -7205,7 +7205,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       stock: 0,
       precio: 0.0,
       cantidad: 0,
-      descuento: 0.0,
+      descuento: 0,
       //Mostrar Venta y Detalles
       cliente: '',
       //Para la busqueda en el modal Producto
@@ -7284,7 +7284,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       var resultado = 0.0;
 
       for (var i = 0; i < this.arrayDetalles.length; i++) {
-        resultado += this.arrayDetalles[i].precio * this.arrayDetalles[i].cantidad - this.arrayDetalles[i].precio * this.arrayDetalles[i].cantidad * this.arrayDetalles[i].descuento;
+        resultado += this.arrayDetalles[i].precio * this.arrayDetalles[i].cantidad - this.arrayDetalles[i].precio * this.arrayDetalles[i].cantidad * this.arrayDetalles[i].descuento / 100;
       } //Redondear a 2 decimales
 
 
@@ -7405,7 +7405,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           me.stock = 0;
           me.cantidad = 0;
           me.precio = 0.0;
-          me.descuento = 0.0;
+          me.descuento = 0;
         }
       }
     },
@@ -7487,7 +7487,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
         me.idProducto = 0;
         me.cantidad = 0;
         me.precio = 0.0;
-        me.descuento = 0.0;
+        me.descuento = 0;
         me.stock = 0.0;
         me.arrayDetalles = [];
         console.log(response);
@@ -7554,7 +7554,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       me.idProducto = 0;
       me.cantidad = 0;
       me.precio = 0.0;
-      me.descuento = 0.0;
+      me.descuento = 0;
       me.arrayDetalles = [];
     },
     ocultarDetalle: function ocultarDetalle() {
@@ -77865,7 +77865,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group col-md-3" }, [
-                      _c("label", [_vm._v("Descuento")]),
+                      _c("label", [_vm._v("Descuento %")]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -77880,8 +77880,8 @@ var render = function() {
                         attrs: {
                           type: "number",
                           value: "0",
-                          min: "0.00",
-                          max: "1.00"
+                          min: "0",
+                          max: "100"
                         },
                         domProps: { value: _vm.descuento },
                         on: {
@@ -78092,9 +78092,10 @@ var render = function() {
                                               (
                                                 detalle.precio *
                                                   detalle.cantidad -
-                                                detalle.precio *
+                                                (detalle.precio *
                                                   detalle.cantidad *
-                                                  detalle.descuento
+                                                  detalle.descuento) /
+                                                  100
                                               ).toFixed(2)
                                             ) +
                                             "\n                                        "
@@ -78249,9 +78250,10 @@ var render = function() {
                                               (
                                                 detalle.precio *
                                                   detalle.cantidad -
-                                                detalle.precio *
+                                                (detalle.precio *
                                                   detalle.cantidad *
-                                                  detalle.descuento
+                                                  detalle.descuento) /
+                                                  100
                                               ).toFixed(2)
                                             ) +
                                             "\n                                        "
@@ -78633,7 +78635,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Cantidad")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Descuento")]),
+      _c("th", [_vm._v("Descuento %")]),
       _vm._v(" "),
       _c("th", [_vm._v("Subtotal")])
     ])
@@ -78669,7 +78671,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Cantidad")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Descuento")]),
+      _c("th", [_vm._v("Descuento %")]),
       _vm._v(" "),
       _c("th", [_vm._v("Subtotal")])
     ])
