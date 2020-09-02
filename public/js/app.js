@@ -7292,6 +7292,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     }
   },
   methods: {
+    onChangeMetodo: function onChangeMetodo() {},
     listarVentas: function listarVentas(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
@@ -78088,6 +78089,7 @@ var render = function() {
                                             value: detalle.descuento
                                           },
                                           on: {
+                                            change: _vm.onChangeMetodo,
                                             input: function($event) {
                                               if ($event.target.composing) {
                                                 return
