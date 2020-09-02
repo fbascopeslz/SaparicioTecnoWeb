@@ -186,6 +186,14 @@
     //SweetAlert2
     import Swal from 'sweetalert2';
     
+    import Vue from 'vue';
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+    // Init plugin
+    Vue.use(Loading);
+
 
     export default {
         
@@ -227,7 +235,15 @@
 
                 //Busqueda
                 criterio: 'codigo',
-                buscar: ''
+                buscar: '',
+
+                //opciones para Vue loading overlay        
+                optionsLoadingOverlay : {                        
+                    canCancel: false,
+                    color: '#007BFF',
+                    height:	128,
+                    width: 128
+                },
             }
         },
 
@@ -265,6 +281,8 @@
 
         methods: {
             listarProductos(page, buscar, criterio) {
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;
 
                 var url = '/producto?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -277,10 +295,14 @@
                         var respuesta = response.data;
                         me.arrayProductos = respuesta.productos.data;
                         me.pagination = respuesta.pagination;
+
+                        loader.hide();
                     })
                     .catch(function (error) {
                         // handle error
                         console.log(error);
+
+                        loader.hide();
                     })
                     .then(function () {
                         // always executed
@@ -305,6 +327,8 @@
                     return;
                 }
 
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;
 
                 const config = {
@@ -323,14 +347,17 @@
                     formData,
                     config                 
                 ).then(function (response) {
+                    loader.hide();
 
                     me.cerrarModal();
                     me.listarProductos(1, '', 'nombre');
                     
-                    console.log(response);
+                    console.log(response);                    
 
                 }).catch(function (error) {
                     console.log(error);
+
+                    loader.hide();
                 });
 
             },
@@ -341,6 +368,8 @@
                 if (this.validarProducto()) {
                     return;
                 }
+
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
 
                 let me = this;
 
@@ -367,14 +396,17 @@
                     formData,
                     config                                        
                 ).then(function (response) {
+                    loader.hide();
 
                     me.cerrarModal();
                     me.listarProductos(1, '', 'nombre');
                     
-                    console.log(response);
+                    console.log(response);                    
 
                 }).catch(function (error) {
                     console.log(error);
+
+                    loader.hide();
                 });
                 
             },
@@ -399,6 +431,8 @@
                 }).then((result) => {
                     if (result.value) {
 
+                        let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                         let me = this;
 
                         axios.put(
@@ -406,7 +440,8 @@
                             {
                                 'id': id
                             }                                                                   
-                        ).then(function (response) {                         
+                        ).then(function (response) {                            
+                            loader.hide();
                             
                             me.listarProductos(1, '', 'nombre');
 
@@ -420,6 +455,8 @@
 
                         }).catch(function (error) {
                             console.log(error);
+
+                            loader.hide();
                         });
                                                 
                     }
@@ -447,6 +484,8 @@
                 }).then((result) => {
                     if (result.value) {
 
+                        let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                         let me = this;
 
                         axios.put(
@@ -455,6 +494,7 @@
                                 'id': id
                             }                                                                   
                         ).then(function (response) { 
+                            loader.hide();
 
                             me.listarProductos(1, '', 'nombre');
                             
@@ -468,6 +508,8 @@
 
                         }).catch(function (error) {
                             console.log(error);
+
+                            loader.hide();
                         });
                                                 
                     }

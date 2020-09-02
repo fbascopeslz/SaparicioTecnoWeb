@@ -391,6 +391,15 @@
     //SweetAlert2
     import Swal from 'sweetalert2';
 
+    import Vue from 'vue';
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+    // Init plugin
+    Vue.use(Loading);
+
+
     export default {                  
         data() {
             return {               
@@ -454,7 +463,15 @@
 
                 //Busqueda
                 criterio: 'numcomprobante',
-                buscar: ''
+                buscar: '',
+
+                //opciones para Vue loading overlay        
+                optionsLoadingOverlay : {                        
+                    canCancel: false,
+                    color: '#007BFF',
+                    height:	128,
+                    width: 128
+                },
             }
         },
 
@@ -506,6 +523,8 @@
 
         methods: {                                
             listarIngresos(page, buscar, criterio) {
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+                
                 let me = this;
 
                 var url = '/ingreso?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -518,10 +537,14 @@
                         var respuesta = response.data;
                         me.arrayIngresos = respuesta.ingresos.data;
                         me.pagination = respuesta.pagination;
+
+                        loader.hide();
                     })
                     .catch(function (error) {
                         // handle error
                         console.log(error);
+
+                        loader.hide();
                     })
                     .then(function () {
                         // always executed
@@ -614,7 +637,7 @@
                 return false;                
             },
 
-            buscarNombreAlmacenById(idAlmacen){
+            buscarNombreAlmacenById(idAlmacen) {
                 for (let i = 0; i < this.arrayAlmacenes.length; i++) {
                     if (this.arrayAlmacenes[i].id == idAlmacen) {
                         return this.arrayAlmacenes[i].nombre;
@@ -686,7 +709,7 @@
             */
 
 
-            seleccionarProducto(producto){
+            seleccionarProducto(producto) {
                 this.producto = producto.nombre;
                 this.idProducto = producto.id;
 
@@ -694,6 +717,8 @@
             },
 
             listarProductos(buscar, criterio) {
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;
 
                 var url = '/producto/listarProductos?' + 'buscar=' + buscar + '&criterio=' + criterio;
@@ -704,11 +729,15 @@
                         //console.log(response);
 
                         var respuesta = response.data;
-                        me.arrayProducto = respuesta.productos.data;                        
+                        me.arrayProducto = respuesta.productos.data;
+                        
+                        loader.hide();
                     })
                     .catch(function (error) {
                         // handle error
                         console.log(error);
+
+                        loader.hide();
                     })
                     .then(function () {
                         // always executed
@@ -748,6 +777,8 @@
                     return;
                 }
 
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;                                       
 
                 axios.post(
@@ -761,6 +792,8 @@
                         'data': this.arrayDetalles,                        
                     }                    
                 ).then(function (response) {
+                    loader.hide();
+
                     me.listado = 1;                                        
                     me.listarIngresos(1, '', 'numcomprobante');
 
@@ -780,6 +813,8 @@
 
                 }).catch(function (error) {
                     console.log(error);
+
+                    loader.hide();
                 });
             },
 
@@ -802,6 +837,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
+                        let loader = this.$loading.show(this.optionsLoadingOverlay);
 
                         let me = this;
 
@@ -810,7 +846,8 @@
                             {
                                 'id': id
                             }                                                                   
-                        ).then(function (response) {                         
+                        ).then(function (response) {
+                            loader.hide();                       
                             
                             me.listarIngresos(1, '', 'numcomprobante');
 
@@ -824,6 +861,8 @@
 
                         }).catch(function (error) {
                             console.log(error);
+
+                            loader.hide();
                         });
                                                 
                     }
@@ -904,6 +943,8 @@
             },
 
             verIngreso(id) {
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 var me = this;
                 me.listado = 2;
 
@@ -925,6 +966,8 @@
                     .catch(function (error) {
                         // handle error
                         console.log(error);
+
+                        loader.hide();
                     })
                     .then(function () {
                         // always executed
@@ -939,12 +982,15 @@
                         console.log(response);
 
                         var respuesta = response.data;
-                        me.arrayDetalles = respuesta.detalles;                                                
-
+                        me.arrayDetalles = respuesta.detalles;
+                        
+                        loader.hide();
                     })
                     .catch(function (error) {
                         // handle error
                         console.log(error);
+
+                        loader.hide();
                     })
                     .then(function () {
                         // always executed

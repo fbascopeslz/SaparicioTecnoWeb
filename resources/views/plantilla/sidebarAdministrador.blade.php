@@ -4,13 +4,6 @@
         <!-- Add icons to the links using the .nav-icon class
             with font-awesome or any other icon font library -->
 
-        <li @click="menu=0" class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-calendar-alt"></i>
-                <p>Inicio</p>
-            </a>
-        </li>
-
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-dolly-flatbed"></i>

@@ -189,6 +189,15 @@
     //SweetAlert2
     import Swal from 'sweetalert2';
 
+    import Vue from 'vue';
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+    // Init plugin
+    Vue.use(Loading);
+
+
     export default {                  
         data() {
             return {               
@@ -225,7 +234,15 @@
 
                 //Busqueda
                 criterio: 'nombres',
-                buscar: ''
+                buscar: '',
+
+                //opciones para Vue loading overlay        
+                optionsLoadingOverlay : {                        
+                    canCancel: false,
+                    color: '#007BFF',
+                    height:	128,
+                    width: 128
+                },
             }
         },
 
@@ -263,6 +280,8 @@
 
         methods: {                
             listarClientes(page, buscar, criterio) {
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;
 
                 var url = '/cliente?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -275,10 +294,14 @@
                         var respuesta = response.data;
                         me.arrayClientes = respuesta.clientes.data;
                         me.pagination = respuesta.pagination;
+
+                        loader.hide();
                     })
                     .catch(function (error) {
                         // handle error
                         console.log(error);
+
+                        loader.hide();
                     })
                     .then(function () {
                         // always executed
@@ -301,6 +324,8 @@
                     return;
                 }
 
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;                                       
 
                 axios.post(
@@ -314,6 +339,8 @@
                         'email': this.email
                     }                    
                 ).then(function (response) {
+                    loader.hide();
+
                     me.cerrarModal();
                     me.listarClientes(1, '', 'nombre');
                     
@@ -321,6 +348,8 @@
 
                 }).catch(function (error) {
                     console.log(error);
+
+                    loader.hide();
                 });
             },
 
@@ -330,6 +359,8 @@
                 if (this.validarCliente()) {
                     return;
                 }
+
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
 
                 let me = this;
             
@@ -345,6 +376,7 @@
                         'email': this.email                        
                     }                                    
                 ).then(function (response) {
+                    loader.hide();
 
                     me.cerrarModal();
                     me.listarClientes(1, '', 'nombre');
@@ -353,6 +385,8 @@
 
                 }).catch(function (error) {
                     console.log(error);
+
+                    loader.hide();
                 });
                 
             },
@@ -376,6 +410,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
+                        let loader = this.$loading.show(this.optionsLoadingOverlay);
 
                         let me = this;
 
@@ -384,7 +419,8 @@
                             {
                                 'id': id
                             }                                                                   
-                        ).then(function (response) {                         
+                        ).then(function (response) {
+                            loader.hide();                       
                             
                             me.listarClientes(1, '', 'nombre');
 
@@ -398,6 +434,8 @@
 
                         }).catch(function (error) {
                             console.log(error);
+
+                            loader.hide();
                         });
                                                 
                     }
@@ -424,6 +462,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
+                        let loader = this.$loading.show(this.optionsLoadingOverlay);
 
                         let me = this;
 
@@ -432,7 +471,8 @@
                             {
                                 'id': id
                             }                                                                   
-                        ).then(function (response) { 
+                        ).then(function (response) {
+                            loader.hide();
 
                             me.listarClientes(1, '', 'nombre');
                             
@@ -446,6 +486,8 @@
 
                         }).catch(function (error) {
                             console.log(error);
+
+                            loader.hide();
                         });
                                                 
                     }

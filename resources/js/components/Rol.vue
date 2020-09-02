@@ -66,6 +66,15 @@
     //SweetAlert2
     import Swal from 'sweetalert2';
 
+    import Vue from 'vue';
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+    // Init plugin
+    Vue.use(Loading);
+
+
     export default {
         
         data() {
@@ -93,7 +102,15 @@
 
                 //Busqueda
                 criterio: 'nombre',
-                buscar: ''
+                buscar: '',
+
+                //opciones para Vue loading overlay        
+                optionsLoadingOverlay : {                        
+                    canCancel: false,
+                    color: '#007BFF',
+                    height:	128,
+                    width: 128
+                },
             }
         },
 
@@ -131,6 +148,8 @@
 
         methods: {
             listarRoles(page, buscar, criterio) {
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;
 
                 var url = '/rol?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -143,10 +162,14 @@
                         var respuesta = response.data;
                         me.arrayRoles = respuesta.roles.data;
                         me.pagination = respuesta.pagination;
+
+                        loader.hide();
                     })
                     .catch(function (error) {
                         // handle error
                         console.log(error);
+
+                        loader.hide();
                     })
                     .then(function () {
                         // always executed

@@ -31,6 +31,7 @@ Vue.component('Ingreso', require('./components/Ingreso.vue').default);
 Vue.component('Venta', require('./components/Venta.vue').default);
 Vue.component('Reportes', require('./components/Reportes.vue').default);
 Vue.component('Estadisticas', require('./components/Estadisticas.vue').default);
+Vue.component('Inventario', require('./components/Inventario.vue').default);
 
 
 //Vue loading overlay
@@ -57,6 +58,6 @@ Vue.use(VueGoogleMaps, {
 const app = new Vue({
     el: '#app',
     data :{
-        menu : 0,                        
+        menu : 1,                        
     }
 });

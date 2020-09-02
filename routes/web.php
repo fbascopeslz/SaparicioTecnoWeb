@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
         Route::put('/producto/activar', 'ProductoController@activar');
         Route::get('/producto/buscarProducto', 'ProductoController@buscarProducto');
         Route::get('/producto/listarProductos', 'ProductoController@listarProductos');
+        Route::get('/producto/listarInventarioModal', 'ProductoController@listarInventarioModal');
         Route::get('/producto/listarInventario', 'ProductoController@listarInventario');
 
         Route::get('/cliente', 'ClienteController@index');

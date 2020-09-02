@@ -322,10 +322,10 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <div class="input-group">
-                                    <select class="form-control col-md-3" v-model="criterioInventario">
-                                        <option value="codigo">Codigo</option>
-                                        <option value="nombre">Nombre</option>
-                                        <option value="almacen">Almacen</option>                                        
+                                    <select class="form-control col-md-3" v-model="criterioInventario">                                        
+                                        <option value="producto.nombre">Producto</option>
+                                        <option value="almacen.nombre">Almacen</option>                                        
+                                        <option value="producto.codigo">Codigo Producto</option>
                                     </select>
                                     <input type="text" v-model="buscarInventario" @keyup.enter="listarInventario(buscarInventario, criterioInventario)" class="form-control" placeholder="Texto a buscar">
                                     <button type="submit" @click="listarInventario(buscarInventario, criterioInventario)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
@@ -342,6 +342,7 @@
                                         <th>Producto</th>                                        
                                         <th>Codigo Producto</th>                               
                                         <th>Descripcion</th>
+                                        <th>Precio Recomendado</th>
                                         <th>Imagen</th>
                                         <th>Stock</th>
                                     </tr>
@@ -356,7 +357,8 @@
                                         <td v-text="inventario.almacen"></td>
                                         <td v-text="inventario.producto"></td>                                        
                                         <td v-text="inventario.codigo"></td>
-                                        <td v-text="inventario.descripcion"></td>                            
+                                        <td v-text="inventario.descripcion"></td>
+                                        <td v-text="inventario.precio"></td>                            
                                         <td><img class="preview" :src="inventario.image"></td>
                                         <td v-text="inventario.stock"></td>                                       
                                     </tr>                                
@@ -427,7 +429,7 @@
                 cliente: '',
                 
                 //Para la busqueda en el modal Producto
-                criterioInventario: 'nombre',
+                criterioInventario: 'producto.nombre',
                 buscarInventario: '',
 
                 //indica si se visualiza o no el listado
@@ -686,7 +688,7 @@
 
                 let me = this;
 
-                var url = '/producto/listarInventario' + '?buscar=' + buscar + '&criterio=' + criterio;;
+                var url = '/producto/listarInventarioModal' + '?buscar=' + buscar + '&criterio=' + criterio;;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -749,6 +751,8 @@
                         'data': this.arrayDetalles,                        
                     }                    
                 ).then(function (response) {
+                    loader.hide();
+                    
                     me.listado = 1;                                        
                     me.listarVentas(1, '', 'numcomprobante');
 
@@ -762,9 +766,7 @@
                     me.precio = 0.0;
                     me.descuento = 0.0;
                     me.stock = 0.0;
-                    me.arrayDetalles = [];
-
-                    loader.hide();
+                    me.arrayDetalles = [];                    
 
                     console.log(response);
 
@@ -953,6 +955,13 @@
         opacity: 1 !important;
         position: absolute !important;
         background-color: #3C29297A !important;
+    }
+
+    .preview {
+        width: 100px;
+        background-color: white;
+        border: 1px solid #DDD;
+        padding: 5px;
     }
 
     .div-error {

@@ -1,49 +1,71 @@
-<div class="sidebar">
-    <nav class="sidebar-nav">
-        <ul class="nav">
-            <li @click="menu=0" class="nav-item">
-                <a class="nav-link active" href="#"><i class="icon-speedometer"></i>Escritorio</a>
-            </li>
-            <li class="nav-title">
-                Mantenimiento
-            </li>
-            <li class="nav-item nav-dropdown">
-                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i>Inventario</a>
-                <ul class="nav-dropdown-items">                                    
-                    <li @click="menu=2" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-bag"></i>Almacenes</a>
-                    </li>
-                    <li @click="menu=3" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-bag"></i>Inventario</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item nav-dropdown">
-                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-wallet"></i>Compras</a>
-                <ul class="nav-dropdown-items">
-                    <li @click="menu=4" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-wallet"></i>Ingresos</a>
-                    </li>              
-                    <li @click="menu=5" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-notebook"></i>Proveedores</a>
-                    </li>
-                </ul>
-            </li>                       
-            <li class="nav-item nav-dropdown">
-                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-pie-chart"></i>Reportes</a>
-                <ul class="nav-dropdown-items">
-                    <li @click="menu=11" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-chart"></i>Reporte Ingresos</a>
-                    </li>                    
-                </ul>
-            </li>
-            <li @click="menu=13" class="nav-item">
-                <a class="nav-link" href="#"><i class="icon-book-open"></i>Ayuda<span class="badge badge-danger">PDF</span></a>
-            </li>
-            <li @click="menu=14" class="nav-item">
-                <a class="nav-link" href="#"><i class="icon-info"></i>Acerca de...<span class="badge badge-info">IT</span></a>
-            </li>
-        </ul>
-    </nav>
-    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
-</div>
+<!-- Sidebar Menu -->
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+            with font-awesome or any other icon font library -->
+
+        <li class="nav-item has-treeview">
+            <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-dolly-flatbed"></i>
+                <p>
+                    Inventario
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li @click="menu=2" class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-warehouse nav-icon"></i>
+                        <p>Almacenes</p>
+                    </a>
+                </li>                
+                <li @click="menu=3" class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-boxes nav-icon"></i>
+                        <p>Inventario</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item has-treeview">
+            <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-shopping-cart"></i>
+                <p>
+                    Compras
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li @click="menu=4" class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-truck-loading nav-icon"></i>
+                        <p>Ingresos</p>
+                    </a>
+                </li>
+                <li @click="menu=5" class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-truck nav-icon"></i>
+                        <p>Proveedores</p>
+                    </a>
+                </li>                
+            </ul>
+        </li>
+                
+        <li @click="menu=10" class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-file-download"></i>
+                <p>Reportes</p>
+            </a>
+        </li>
+        
+        <li @click="menu=11" class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chart-bar"></i>
+                <p>Estadisticas</p>
+            </a>
+        </li>
+
+    </ul>
+</nav>
+<!-- /.sidebar-menu -->

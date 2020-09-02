@@ -164,8 +164,16 @@
 </main>
 </template>
 <script>
-
     import Chart from 'chart.js';
+
+    import Vue from 'vue';
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+    // Init plugin
+    Vue.use(Loading);
+
 
     export default {
         data (){
@@ -211,8 +219,16 @@
 
                 refCanvasPieChart: null,
 
+                //opciones para Vue loading overlay        
+                optionsLoadingOverlay : {                        
+                    canCancel: false,
+                    color: '#007BFF',
+                    height:	128,
+                    width: 128
+                },
             }
         },
+
         methods : {
             getNColores(n) {
                 var colores = [                                                            
@@ -273,7 +289,9 @@
                 this.estadisticaProductosMasVendidos();
             },
 
-            estadisticaProductosMasVendidos(){
+            estadisticaProductosMasVendidos() {
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;
 
                 var url = '/estadisticaProductosMasVendidos';
@@ -305,9 +323,13 @@
                     });
 
                     me.cargarGraficaProductosMasVendidos();
+
+                    loader.hide();
                 })
                 .catch(function (error) {
                     console.log(error);
+
+                    loader.hide();
                 });
             },
             
@@ -338,7 +360,9 @@
             },
 
 
-            estadisticaClientesMasFieles(){
+            estadisticaClientesMasFieles() {
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;
 
                 var url = '/estadisticaClientesMasFieles';                              
@@ -354,9 +378,13 @@
                     });
 
                     me.cargarGraficaClientesMasFieles();
+
+                    loader.hide();
                 })
                 .catch(function (error) {
                     console.log(error);
+
+                    loader.hide();
                 });
             },
             
@@ -387,7 +415,9 @@
             },
 
 
-            estadisticaProveedoresMasSolicitados(){
+            estadisticaProveedoresMasSolicitados() {
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
+
                 let me = this;
 
                 var url = '/estadisticaProveedoresMasSolicitados';                              
@@ -403,9 +433,13 @@
                     });
 
                     me.cargarGraficaProveedoresMasSolicitados();
+
+                    loader.hide();
                 })
                 .catch(function (error) {
                     console.log(error);
+
+                    loader.hide();
                 });
             },
             
@@ -434,7 +468,6 @@
                     }
                 });
             },
-
 
 
             mesToNombreMes(mes) {
@@ -468,8 +501,7 @@
                 }
             },
 
-            estadisticasFinancieras() {
-                
+            estadisticasFinancieras() {                
                 //limpiar variables
                 this.arrayRespuesta4 = [];
                 this.arrayRespuesta5 = [];        
@@ -480,6 +512,8 @@
                 this.ingreso = 0;
                 this.gasto = 0;
             
+
+                let loader = this.$loading.show(this.optionsLoadingOverlay);
 
                 let me = this;
 
@@ -503,41 +537,15 @@
                     me.gasto = me.arrayRespuesta5[0].gasto;
 
                     me.cargarGraficasFinancieras();
+
+                    loader.hide();
                 })
                 .catch(function (error) {
                     console.log(error);
+
+                    loader.hide();
                 });
             },
-
-/*
-            actualizarGraficasFinancieras() {                                                                                          
-                
-                this.lineChart.data.datasets[0] = new Chart(this.refCanvasLineChart, {
-                        type: 'line',
-                        data: {
-                            datasets: [
-                                {
-                                    label: 'Ingresos',
-                                    backgroundColor: 'rgba(0, 128, 0, 0.8)', //verde
-                                    borderColor: 'rgba(0, 128, 0, 1.0)', //verde
-                                    data: this.arrayIngresos,
-                                    fill: false,
-                                },
-                                {
-                                    label: 'Gastos',
-                                    backgroundColor: 'rgba(255, 0, 0, 0.8)', //rojo
-                                    borderColor: 'rgba(255, 0, 0, 1.0)', //rojo
-                                    data: this.arrayGastos,
-                                    fill: false,
-                                }
-                            ],
-
-                            // These labels appear in the legend and in the tooltips when hovering different arcs
-                            labels: this.arrayMeses,
-                        },
-                       
-            },     
-            */   
             
             cargarGraficasFinancieras() {                                                                                                          
                 this.lineChart = new Chart(this.refCanvasLineChart, {

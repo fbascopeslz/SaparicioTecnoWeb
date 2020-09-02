@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 
 use App\Producto;
+use App\Inventario;
 
 use Illuminate\Support\Facades\DB;
 
@@ -69,7 +70,7 @@ class ProductoController extends Controller
 
 
     //Metodo para la Venta
-    public function listarInventario(Request $request)
+    public function listarInventarioModal(Request $request)
     {
         //Si la peticion no es de Ajax redirige a la ruta '/'
         if (!$request->ajax()) {
@@ -77,7 +78,7 @@ class ProductoController extends Controller
         }
 
         $buscar = $request->buscar;
-        $criterio = $request->criterio;
+        $criterio = $request->criterio;        
 
         if ($buscar == '') {                    
             $inventario = DB::select("SELECT almacen.nombre AS almacen, 
@@ -107,12 +108,67 @@ class ProductoController extends Controller
                                     WHERE producto.id = inventario.idproducto AND
                                         inventario.idalmacen = almacen.id AND ".
                                         $criterio . "LIKE %" . $buscar . "% ".    
-                                        "ORDER BY almacen.id ASC");
-            $productos = Producto::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);         
+                                        "ORDER BY almacen.id ASC");            
         }                                        
 
         return ['inventario' => $inventario];
     }
+
+
+    //Inventario
+    public function listarInventario(Request $request)
+    {
+        //Si la peticion no es de Ajax redirige a la ruta '/'
+        if (!$request->ajax()) {
+            return redirect('/');
+        }
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+        if ($buscar == '') {
+            $inventario = Inventario::join('producto', 'inventario.idproducto', '=', 'producto.id')
+                    ->join('almacen', 'inventario.idalmacen', '=', 'almacen.id')
+                    ->select('almacen.nombre AS almacen', 
+                            'producto.nombre AS producto',
+                            'producto.id AS idproducto', 
+                            'almacen.id AS idalmacen',
+                            'producto.codigo', 
+                            'producto.descripcion',
+                            'producto.precio', 
+                            'producto.image',
+                            'inventario.stock')
+                    ->orderBy('almacen.id', 'desc')
+                    ->paginate(5);
+        } else {
+            $inventario = Inventario::join('producto', 'inventario.idproducto', '=', 'producto.id')
+                        ->join('almacen', 'inventario.idalmacen', '=', 'almacen.id')
+                        ->select('almacen.nombre AS almacen', 
+                                'producto.nombre AS producto',
+                                'producto.id AS idproducto', 
+                                'almacen.id AS idalmacen',
+                                'producto.codigo', 
+                                'producto.descripcion',
+                                'producto.precio', 
+                                'producto.image',
+                                'inventario.stock')
+                        ->where($criterio, 'LIKE', '%'.$buscar.'%')
+                        ->orderBy('almacen.id', 'desc')
+                        ->paginate(5);                                       
+        }                
+
+        return [
+            'pagination' => [
+                'total' => $inventario->total(),
+                'current_page' => $inventario->currentPage(),
+                'per_page' => $inventario->perPage(),
+                'last_page' => $inventario->lastPage(),
+                'from' => $inventario->firstItem(),
+                'to' => $inventario->lastItem(),
+            ],
+            'inventario' => $inventario
+        ];
+    }    
 
 
     //Metodo para el Ingreso
