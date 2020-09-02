@@ -932,7 +932,8 @@
             },
 
             generarNotaDeVenta(id) {            
-                window.open(this.url + 'venta/generarNotaDeVenta/' + id, '_blank');                                                                
+                window.open(window.location.origin + 'venta/generarNotaDeVenta/' + id, '_blank');   
+                console.log(window.location.origin);                                                             
             },
                                                     
         },
