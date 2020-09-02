@@ -115,7 +115,7 @@
         
         data() {
             return {
-                url: 'http://young-everglades-57516.herokuapp.com/',     
+                url: window.location.origin + '/',     
                 
                 fecha1Ventas: '',
                 fecha2Ventas: '',
