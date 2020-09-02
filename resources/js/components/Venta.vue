@@ -198,13 +198,13 @@
                                             <td v-text="detalle.producto"></td>
                                             <td v-text="detalle.almacen"></td>
                                             <td>
-                                                <input v-model="detalle.precio" type="number" value="0" class="form-control">
+                                                <input v-model="detalle.precio" type="number" value="0" min="0" class="form-control">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.cantidad" type="number" value="0" class="form-control">
+                                                <input v-model="detalle.cantidad" type="number" value="0" min="0" class="form-control">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.descuento" type="number" value="0" class="form-control">
+                                                <input v-model="detalle.descuento" v-on:change="onChangeMetodo" type="number" value="0" min="0" max="100" class="form-control">
                                             </td>
                                             <td>
                                                 {{ ((detalle.precio * detalle.cantidad) - (detalle.precio * detalle.cantidad * detalle.descuento / 100)).toFixed(2) }}
@@ -523,7 +523,12 @@
             },        
         },
 
-        methods: {                                
+        methods: {              
+            
+            onChangeMetodo() {
+
+            },
+
             listarVentas(page, buscar, criterio) {
 
                 let loader = this.$loading.show(this.optionsLoadingOverlay);
@@ -622,6 +627,9 @@
                 }
                 if (!this.precio) {
                     this.errorMostrarMsjVentaDetalle.push("El campo Precio no puede estar vacio.");
+                }
+                if (parseInt(this.descuento) < 0 || parseInt(this.descuento) > 100) {
+                    this.errorMostrarMsjVentaDetalle.push("El Descuento debe estar en un rango de 0 a 100 %.");
                 }
                 if (this.errorMostrarMsjVentaDetalle.length) {
                     this.errorVentaDetalle = 1;

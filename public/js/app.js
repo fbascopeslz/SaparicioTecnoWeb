@@ -7368,6 +7368,10 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
         this.errorMostrarMsjVentaDetalle.push("El campo Precio no puede estar vacio.");
       }
 
+      if (parseInt(this.descuento) < 0 || parseInt(this.descuento) > 100) {
+        this.errorMostrarMsjVentaDetalle.push("El Descuento debe estar en un rango de 0 a 100 %.");
+      }
+
       if (this.errorMostrarMsjVentaDetalle.length) {
         this.errorVentaDetalle = 1;
       }
@@ -78010,7 +78014,11 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "0" },
+                                          attrs: {
+                                            type: "number",
+                                            value: "0",
+                                            min: "0"
+                                          },
                                           domProps: { value: detalle.precio },
                                           on: {
                                             input: function($event) {
@@ -78038,7 +78046,11 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "0" },
+                                          attrs: {
+                                            type: "number",
+                                            value: "0",
+                                            min: "0"
+                                          },
                                           domProps: { value: detalle.cantidad },
                                           on: {
                                             input: function($event) {
@@ -78066,7 +78078,12 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "0" },
+                                          attrs: {
+                                            type: "number",
+                                            value: "0",
+                                            min: "0",
+                                            max: "100"
+                                          },
                                           domProps: {
                                             value: detalle.descuento
                                           },

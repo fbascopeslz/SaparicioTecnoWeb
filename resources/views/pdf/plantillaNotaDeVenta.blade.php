@@ -188,7 +188,7 @@
                             <td>{{$det->producto}}</td>
                             <td>{{$det->precio}}</td>
                             <td>{{$det->descuento}}</td>
-                            <td>{{$det->cantidad * $det->precio}}</td>
+                            <td>{{($det->cantidad * $det->precio) - ($det->cantidad * $det->precio * $det->descuento / 100)}}</td>
                         </tr>
                         @endforeach
                     </tbody>
