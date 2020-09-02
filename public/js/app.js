@@ -5894,7 +5894,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      url: 'http://127.0.0.1:8000/',
+      url: 'http://young-everglades-57516.herokuapp.com/',
       fecha1Ventas: '',
       fecha2Ventas: '',
       fecha1Ingresos: '',
@@ -7242,7 +7242,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
         height: 128,
         width: 128
       },
-      url: 'http://127.0.0.1:8000/'
+      url: 'http://young-everglades-57516.herokuapp.com/'
     };
   },
   components: {
@@ -7604,7 +7604,8 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       });
     },
     generarNotaDeVenta: function generarNotaDeVenta(id) {
-      window.open(this.url + 'venta/generarNotaDeVenta/' + id, '_blank');
+      window.open(window.location.origin + 'venta/generarNotaDeVenta/' + id, '_blank');
+      console.log(window.location.origin);
     }
   },
   mounted: function mounted() {

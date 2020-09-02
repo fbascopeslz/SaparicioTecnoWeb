@@ -933,8 +933,7 @@
 
             generarNotaDeVenta(id) {            
                 window.open(window.location.origin + 'venta/generarNotaDeVenta/' + id, '_blank');   
-                console.log(window.location.origin);
-                console.log("Holiii");                                                             
+                console.log(window.location.origin);                                                                           
             },
                                                     
         },
