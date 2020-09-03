@@ -3234,7 +3234,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     estadisticaProductosMasVendidos: function estadisticaProductosMasVendidos() {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/estadisticaProductosMasVendidos';
+      var url = 'estadisticaProductosMasVendidos';
 
       switch (this.tipo) {
         case 0:
@@ -3296,7 +3296,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     estadisticaClientesMasFieles: function estadisticaClientesMasFieles() {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/estadisticaClientesMasFieles';
+      var url = 'estadisticaClientesMasFieles';
       axios.get(url).then(function (response) {
         console.log(response);
         var respuesta = response.data;
@@ -3340,7 +3340,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     estadisticaProveedoresMasSolicitados: function estadisticaProveedoresMasSolicitados() {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/estadisticaProveedoresMasSolicitados';
+      var url = 'estadisticaProveedoresMasSolicitados';
       axios.get(url).then(function (response) {
         console.log(response);
         var respuesta = response.data;
@@ -3435,7 +3435,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       this.gasto = 0;
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/estadisticasFinancieras?anio=' + me.anio;
+      var url = 'estadisticasFinancieras?anio=' + me.anio;
       axios.get(url).then(function (response) {
         console.log(response);
         var respuesta = response.data;
@@ -6234,7 +6234,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     listarRoles: function listarRoles(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/rol?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'rol?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);

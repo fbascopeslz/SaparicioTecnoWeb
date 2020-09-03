@@ -31,7 +31,10 @@ class ReportesController extends Controller
                         . "FROM venta, cliente, usuario\n"
                         . "WHERE venta.idcliente = cliente.id and "
                         . "venta.idusuario = usuario.id\n" . $sql
-                        . "ORDER BY venta.id ASC");                        
+                        . "ORDER BY venta.id ASC");
+
+        //Solucion al error para Dompdf: Maximum execution time of 30 seconds exceeded
+        set_time_limit(300); // Extends to 5 minutes.                                          
 
         $pdf = PDF::loadView('pdf.plantillareporteventas', ['ventas'=>$ventas]);
         $pdf->setPaper('A4', 'landscape');
@@ -66,6 +69,9 @@ class ReportesController extends Controller
                         . "WHERE ingreso.idproveedor = proveedor.id and "
                         . "ingreso.idusuario = usuario.id\n" . $sql
                         . "ORDER BY ingreso.id ASC");
+
+        //Solucion al error para Dompdf: Maximum execution time of 30 seconds exceeded
+        set_time_limit(300); // Extends to 5 minutes.
 
         $pdf = PDF::loadView('pdf.plantillareporteingresos', ['ingresos'=>$ingresos]);
         $pdf->setPaper('A4', 'landscape');

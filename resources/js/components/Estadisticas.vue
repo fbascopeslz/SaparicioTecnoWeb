@@ -294,7 +294,7 @@
 
                 let me = this;
 
-                var url = '/estadisticaProductosMasVendidos';
+                var url = 'estadisticaProductosMasVendidos';
                 switch (this.tipo) {
                     case 0:
                         url = url + '?tipo=0';
@@ -365,7 +365,7 @@
 
                 let me = this;
 
-                var url = '/estadisticaClientesMasFieles';                              
+                var url = 'estadisticaClientesMasFieles';                              
                 
                 axios.get(url).then(function (response) {
                     console.log(response);
@@ -420,7 +420,7 @@
 
                 let me = this;
 
-                var url = '/estadisticaProveedoresMasSolicitados';                              
+                var url = 'estadisticaProveedoresMasSolicitados';                              
                 
                 axios.get(url).then(function (response) {
                     console.log(response);
@@ -517,7 +517,7 @@
 
                 let me = this;
 
-                var url = '/estadisticasFinancieras?anio=' + me.anio;                              
+                var url = 'estadisticasFinancieras?anio=' + me.anio;                              
                 
                 axios.get(url).then(function (response) {
                     console.log(response);
