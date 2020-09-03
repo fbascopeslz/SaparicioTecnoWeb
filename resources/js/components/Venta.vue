@@ -149,15 +149,15 @@
                                                                                                                                                         
                             <div class="form-group col-md-3">                                        
                                 <label>Precio</label>
-                                <input type="number" value="0" step="any" class="form-control" v-model="precio" min="1">                                          
+                                <input type="number" value="0" step="any" class="form-control" min="1" v-model="precio" @keypress="isNumberDecimal($event)">                                          
                             </div>                            
                             <div class="form-group col-md-3">                                        
                                 <label>Cantidad</label>
-                                <input type="number" value="0" class="form-control" v-model="cantidad" min="1">                                                                        
+                                <input type="number" value="0" class="form-control" min="1" v-model="cantidad" @keypress="isNumber($event)">                                                                        
                             </div>
                             <div class="form-group col-md-3">                                        
                                 <label>Descuento %</label>
-                                <input type="number" value="0" class="form-control" v-model="descuento" min="0" max="100">                                        
+                                <input type="number" value="0" class="form-control" min="0" max="100" v-model="descuento" @keypress="isNumber($event)">                                        
                             </div>
                             <div class="form-group col-md-2">                                                                   
                                 <button @click="agregarDetalle()" class="btn btn-success form-control btnagregar"><i class="icon-plus"></i></button>                                        
@@ -172,7 +172,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="form-group row border">
@@ -198,13 +197,17 @@
                                             <td v-text="detalle.producto"></td>
                                             <td v-text="detalle.almacen"></td>
                                             <td>
-                                                <input v-model="detalle.precio" type="number" value="0" min="0" class="form-control">
+                                                <span class="text-error" v-show="detalle.precio <= 0">(*Precio mayor a 0)</span>
+                                                <input v-model="detalle.precio" @keypress="isNumberDecimal($event)" type="number" value="0" min="0" class="form-control">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.cantidad" type="number" value="0" min="0" class="form-control">
+                                                <span class="text-error" v-show="detalle.cantidad <= 0">(*Cantidad mayor a  0)</span>
+                                                <span class="text-error" v-show="detalle.cantidad > detalle.stock">(*Cantidad menor al stock: {{detalle.stock}})</span>
+                                                <input v-model="detalle.cantidad" @keypress="isNumber($event)" type="number" value="0" min="0" class="form-control">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.descuento" v-on:change="onChangeMetodo" type="number" value="0" min="0" max="100" class="form-control">
+                                                <span class="text-error" v-show="detalle.descuento < 0 || detalle.descuento > 100">(*Descuento debe estar entre 0 y 100%)</span>
+                                                <input v-model="detalle.descuento" @keypress="isNumber($event)" type="number" value="0" min="0" max="100" class="form-control">
                                             </td>
                                             <td>
                                                 {{ ((detalle.precio * detalle.cantidad) - (detalle.precio * detalle.cantidad * detalle.descuento / 100)).toFixed(2) }}
@@ -222,6 +225,14 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div v-show="errorArrayDetalles == 1" class="form-group row div-error">
+                                <div class="text-center text-error">
+                                    Porfavor corrija los errores en el Detalle de la Venta
+                                </div>
                             </div>
                         </div>
 
@@ -449,6 +460,9 @@
                 errorVentaDetalle: 0,                
                 errorMostrarMsjVentaDetalle: [],
 
+                //Validar el array de detalles antes de enviarlo al servidor
+                errorArrayDetalles: 0,
+
                 pagination: {
                     'total': 0,
                     'current_page': 0,
@@ -469,10 +483,7 @@
                     color: '#007BFF',
                     height:	128,
                     width: 128
-                },
-                
-                url: 'http://young-everglades-57516.herokuapp.com/',
-
+                },                               
             }
         },
 
@@ -525,12 +536,30 @@
 
         methods: {              
             
-            onChangeMetodo() {
-
+            //Validar que el input solo acepte numeros y punto
+            isNumberDecimal: function(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
             },
 
-            listarVentas(page, buscar, criterio) {
+            //Validar que el input solo acepte numeros y punto
+            isNumber: function(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
+            },
 
+
+            listarVentas(page, buscar, criterio) {
                 let loader = this.$loading.show(this.optionsLoadingOverlay);
              
                 var me = this;
@@ -622,11 +651,14 @@
                 if (this.idProducto == 0) {
                     this.errorMostrarMsjVentaDetalle.push("Seleccione un Producto.");
                 }              
-                if (!this.cantidad) {
-                    this.errorMostrarMsjVentaDetalle.push("El campo Cantidad no puede estar vacio.");
+                if (this.cantidad <= 0) {
+                    this.errorMostrarMsjVentaDetalle.push("El campo Cantidad debe ser mayor a 0.");
                 }
-                if (!this.precio) {
-                    this.errorMostrarMsjVentaDetalle.push("El campo Precio no puede estar vacio.");
+                if (this.cantidad > this.stock) {
+                    this.errorMostrarMsjVentaDetalle.push("La cantidad no puede sobrepasar al stock del Producto.");
+                }
+                if (this.precio <= 0) {
+                    this.errorMostrarMsjVentaDetalle.push("El campo Precio debe ser mayor a 0.");
                 }
                 if (parseInt(this.descuento) < 0 || parseInt(this.descuento) > 100) {
                     this.errorMostrarMsjVentaDetalle.push("El Descuento debe estar en un rango de 0 a 100 %.");
@@ -639,6 +671,8 @@
             },
 
             agregarDetalle() {
+                this.errorArrayDetalles = 0;
+
                 let me = this;
 
                 if (this.validarVentaDetalle()) {
@@ -655,6 +689,7 @@
                         me.arrayDetalles.push({
                             idproducto: me.idProducto,
                             producto: me.producto,
+                            stock: me.stock,
                             idalmacen: me.idAlmacen,
                             almacen: me.almacen,                           
                             cantidad: me.cantidad,
@@ -676,6 +711,8 @@
             },
             
             eliminarDetalle(index) {
+                this.errorArrayDetalles = 0;
+
                 let me = this;
                 me.arrayDetalles.splice(index, 1);
             },
@@ -737,11 +774,39 @@
                 }
 
                 return this.errorVenta;
-            },    
+            },
+            
+            validarArrayDetalles() {
+                for (let i = 0; i < this.arrayDetalles.length; i++) {
+                    if (this.arrayDetalles[i].cantidad <= 0) {
+                        this.errorArrayDetalles = 1;
+                        return true;                        
+                    }                    
+                    if (this.arrayDetalles[i].cantidad > this.arrayDetalles[i].stock) {
+                        this.errorArrayDetalles = 1;
+                        return true;
+                    }
+                    if (this.arrayDetalles[i].precio <= 0) {
+                        this.errorArrayDetalles = 1;
+                        return true;
+                    }
+                    if (parseInt(this.arrayDetalles[i].descuento) < 0 || parseInt(this.arrayDetalles[i].descuento) > 100) {
+                        this.errorArrayDetalles = 1;
+                        return true;
+                    }                    
+                }
+                this.errorArrayDetalles = 0;
+                return false;
+            },
 
             registrarVenta() {                
                 //Verificar las validaciones
                 if (this.validarVenta()) {
+                    return;
+                }
+
+                //Validar el array de detalles
+                if (this.validarArrayDetalles()) {
                     return;
                 }
 

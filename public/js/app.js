@@ -7172,6 +7172,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
  //SweetAlert2
 //import Swal from 'sweetalert2';
@@ -7223,6 +7234,8 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       errorMostrarMsjVenta: [],
       errorVentaDetalle: 0,
       errorMostrarMsjVentaDetalle: [],
+      //Validar el array de detalles antes de enviarlo al servidor
+      errorArrayDetalles: 0,
       pagination: {
         'total': 0,
         'current_page': 0,
@@ -7241,8 +7254,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
         color: '#007BFF',
         height: 128,
         width: 128
-      },
-      url: 'http://young-everglades-57516.herokuapp.com/'
+      }
     };
   },
   components: {
@@ -7292,7 +7304,28 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     }
   },
   methods: {
-    onChangeMetodo: function onChangeMetodo() {},
+    //Validar que el input solo acepte numeros y punto
+    isNumberDecimal: function isNumberDecimal(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+
+      if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 46) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+    //Validar que el input solo acepte numeros y punto
+    isNumber: function isNumber(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     listarVentas: function listarVentas(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
@@ -7361,12 +7394,16 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
         this.errorMostrarMsjVentaDetalle.push("Seleccione un Producto.");
       }
 
-      if (!this.cantidad) {
-        this.errorMostrarMsjVentaDetalle.push("El campo Cantidad no puede estar vacio.");
+      if (this.cantidad <= 0) {
+        this.errorMostrarMsjVentaDetalle.push("El campo Cantidad debe ser mayor a 0.");
       }
 
-      if (!this.precio) {
-        this.errorMostrarMsjVentaDetalle.push("El campo Precio no puede estar vacio.");
+      if (this.cantidad > this.stock) {
+        this.errorMostrarMsjVentaDetalle.push("La cantidad no puede sobrepasar al stock del Producto.");
+      }
+
+      if (this.precio <= 0) {
+        this.errorMostrarMsjVentaDetalle.push("El campo Precio debe ser mayor a 0.");
       }
 
       if (parseInt(this.descuento) < 0 || parseInt(this.descuento) > 100) {
@@ -7380,6 +7417,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       return this.errorVentaDetalle;
     },
     agregarDetalle: function agregarDetalle() {
+      this.errorArrayDetalles = 0;
       var me = this;
 
       if (this.validarVentaDetalle()) {
@@ -7396,6 +7434,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           me.arrayDetalles.push({
             idproducto: me.idProducto,
             producto: me.producto,
+            stock: me.stock,
             idalmacen: me.idAlmacen,
             almacen: me.almacen,
             cantidad: me.cantidad,
@@ -7415,6 +7454,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       }
     },
     eliminarDetalle: function eliminarDetalle(index) {
+      this.errorArrayDetalles = 0;
       var me = this;
       me.arrayDetalles.splice(index, 1);
     },
@@ -7467,9 +7507,40 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       return this.errorVenta;
     },
+    validarArrayDetalles: function validarArrayDetalles() {
+      for (var i = 0; i < this.arrayDetalles.length; i++) {
+        if (this.arrayDetalles[i].cantidad <= 0) {
+          this.errorArrayDetalles = 1;
+          return true;
+        }
+
+        if (this.arrayDetalles[i].cantidad > this.arrayDetalles[i].stock) {
+          this.errorArrayDetalles = 1;
+          return true;
+        }
+
+        if (this.arrayDetalles[i].precio <= 0) {
+          this.errorArrayDetalles = 1;
+          return true;
+        }
+
+        if (parseInt(this.arrayDetalles[i].descuento) < 0 || parseInt(this.arrayDetalles[i].descuento) > 100) {
+          this.errorArrayDetalles = 1;
+          return true;
+        }
+      }
+
+      this.errorArrayDetalles = 0;
+      return false;
+    },
     registrarVenta: function registrarVenta() {
       //Verificar las validaciones
       if (this.validarVenta()) {
+        return;
+      } //Validar el array de detalles
+
+
+      if (this.validarArrayDetalles()) {
         return;
       }
 
@@ -77833,6 +77904,9 @@ var render = function() {
                         },
                         domProps: { value: _vm.precio },
                         on: {
+                          keypress: function($event) {
+                            return _vm.isNumberDecimal($event)
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -77859,6 +77933,9 @@ var render = function() {
                         attrs: { type: "number", value: "0", min: "1" },
                         domProps: { value: _vm.cantidad },
                         on: {
+                          keypress: function($event) {
+                            return _vm.isNumber($event)
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -77890,6 +77967,9 @@ var render = function() {
                         },
                         domProps: { value: _vm.descuento },
                         on: {
+                          keypress: function($event) {
+                            return _vm.isNumber($event)
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -78005,6 +78085,23 @@ var render = function() {
                                       }),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c(
+                                          "span",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value: detalle.precio <= 0,
+                                                expression:
+                                                  "detalle.precio <= 0"
+                                              }
+                                            ],
+                                            staticClass: "text-error"
+                                          },
+                                          [_vm._v("(*Precio mayor a 0)")]
+                                        ),
+                                        _vm._v(" "),
                                         _c("input", {
                                           directives: [
                                             {
@@ -78022,6 +78119,9 @@ var render = function() {
                                           },
                                           domProps: { value: detalle.precio },
                                           on: {
+                                            keypress: function($event) {
+                                              return _vm.isNumberDecimal($event)
+                                            },
                                             input: function($event) {
                                               if ($event.target.composing) {
                                                 return
@@ -78037,6 +78137,48 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c(
+                                          "span",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value: detalle.cantidad <= 0,
+                                                expression:
+                                                  "detalle.cantidad <= 0"
+                                              }
+                                            ],
+                                            staticClass: "text-error"
+                                          },
+                                          [_vm._v("(*Cantidad mayor a  0)")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value:
+                                                  detalle.cantidad >
+                                                  detalle.stock,
+                                                expression:
+                                                  "detalle.cantidad > detalle.stock"
+                                              }
+                                            ],
+                                            staticClass: "text-error"
+                                          },
+                                          [
+                                            _vm._v(
+                                              "(*Cantidad menor al stock: " +
+                                                _vm._s(detalle.stock) +
+                                                ")"
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
                                         _c("input", {
                                           directives: [
                                             {
@@ -78054,6 +78196,9 @@ var render = function() {
                                           },
                                           domProps: { value: detalle.cantidad },
                                           on: {
+                                            keypress: function($event) {
+                                              return _vm.isNumber($event)
+                                            },
                                             input: function($event) {
                                               if ($event.target.composing) {
                                                 return
@@ -78069,6 +78214,29 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c(
+                                          "span",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value:
+                                                  detalle.descuento < 0 ||
+                                                  detalle.descuento > 100,
+                                                expression:
+                                                  "detalle.descuento < 0 || detalle.descuento > 100"
+                                              }
+                                            ],
+                                            staticClass: "text-error"
+                                          },
+                                          [
+                                            _vm._v(
+                                              "(*Descuento debe estar entre 0 y 100%)"
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
                                         _c("input", {
                                           directives: [
                                             {
@@ -78089,7 +78257,9 @@ var render = function() {
                                             value: detalle.descuento
                                           },
                                           on: {
-                                            change: _vm.onChangeMetodo,
+                                            keypress: function($event) {
+                                              return _vm.isNumber($event)
+                                            },
                                             input: function($event) {
                                               if ($event.target.composing) {
                                                 return
@@ -78150,6 +78320,30 @@ var render = function() {
                         ]
                       )
                     ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errorArrayDetalles == 1,
+                            expression: "errorArrayDetalles == 1"
+                          }
+                        ],
+                        staticClass: "form-group row div-error"
+                      },
+                      [
+                        _c("div", { staticClass: "text-center text-error" }, [
+                          _vm._v(
+                            "\n                                Porfavor corrija los errores en el Detalle de la Venta\n                            "
+                          )
+                        ])
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row" }, [
