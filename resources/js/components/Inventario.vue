@@ -144,7 +144,7 @@
 
                 let me = this;
 
-                var url = '/producto/listarInventario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url = 'producto/listarInventario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 
                 axios.get(url)
                     .then(function (response) {

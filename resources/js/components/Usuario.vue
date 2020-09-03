@@ -138,7 +138,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Numero de Documento</label>
                                 <div class="col-md-9">
-                                    <input type="text" v-model="numDocumento" class="form-control" placeholder="Numero de Documento">
+                                    <input type="text" v-model="numDocumento" @keypress="isNumber($event)" class="form-control" placeholder="Numero de Documento">
                                     <span class="help-block">(*) Ingrese el Numero de Documento del Proveedor</span>
                                 </div>
                             </div>
@@ -151,7 +151,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Telefono</label>
                                 <div class="col-md-9">
-                                    <input type="text" v-model="telefono" class="form-control" placeholder="Telefono">                                    
+                                    <input type="text" v-model="telefono" @keypress="isNumber($event)" class="form-control" placeholder="Telefono">                                    
                                 </div>
                             </div>      
                             <div class="form-group row">
@@ -309,13 +309,25 @@
             }
         },
 
-        methods: {                
+        methods: {
+            //Validar que el input solo acepte numeros y punto
+            isNumber: function(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
+            },
+            
+            
             listarUsuarios(page, buscar, criterio) {
                 let loader = this.$loading.show(this.optionsLoadingOverlay);
 
                 let me = this;
 
-                var url = '/usuario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url = 'usuario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -342,7 +354,7 @@
             selectRol() {
                 let me = this;
 
-                var url = '/rol/selectRol';
+                var url = 'rol/selectRol';
                 
                 axios.get(url)
                     .then(function (response) {
@@ -382,7 +394,7 @@
                 let me = this;                                       
 
                 axios.post(
-                    '/usuario/registrar',
+                    'usuario/registrar',
                     {
                         'nombres': this.nombres,
                         'tipodocumento': this.tipoDocumento,
@@ -421,7 +433,7 @@
                 let me = this;
             
                 axios.post(
-                    '/usuario/actualizar',
+                    'usuario/actualizar',
                     {
                         'id': this.idUsuario,
                         'nombres': this.nombres,
@@ -474,7 +486,7 @@
                         let me = this;
 
                         axios.put(
-                            '/usuario/desactivar',
+                            'usuario/desactivar',
                             {
                                 'id': id
                             }                                                                   
@@ -526,7 +538,7 @@
                         let me = this;
 
                         axios.put(
-                            '/usuario/activar',
+                            'usuario/activar',
                             {
                                 'id': id
                             }                                                                   

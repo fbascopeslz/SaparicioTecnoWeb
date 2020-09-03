@@ -564,7 +564,7 @@
              
                 var me = this;
 
-                var url = '/venta?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url = 'venta?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -594,7 +594,7 @@
 
                 loading(true);
 
-                var url = '/cliente/selectCliente?filtro=' + search;
+                var url = 'cliente/selectCliente?filtro=' + search;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -733,7 +733,7 @@
 
                 let me = this;
 
-                var url = '/producto/listarInventarioModal' + '?buscar=' + buscar + '&criterio=' + criterio;;
+                var url = 'producto/listarInventarioModal' + '?buscar=' + buscar + '&criterio=' + criterio;;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -815,7 +815,7 @@
                 let me = this;                                       
 
                 axios.post(
-                    '/venta/registrar',
+                    'venta/registrar',
                     {
                         'idcliente': this.idCliente,
                         'total': this.total,                        
@@ -875,7 +875,7 @@
                         let me = this;
 
                         axios.put(
-                            '/venta/desactivar',
+                            'venta/desactivar',
                             {
                                 'id': id
                             }                                                                   
@@ -953,7 +953,7 @@
                 me.listado = 2;
 
                 //Obtener cabezera del Ingreso                
-                var url = '/venta/obtenerCabezeraVenta?id=' + id;
+                var url = 'venta/obtenerCabezeraVenta?id=' + id;
                 axios.get(url)
                     .then(function (response) {
                         // handle success
@@ -979,7 +979,7 @@
 
 
                 //Obtener detalles del venta                
-                var url2 = '/venta/obtenerDetallesVenta?id=' + id;
+                var url2 = 'venta/obtenerDetallesVenta?id=' + id;
                 axios.get(url2)
                     .then(function (response) {
                         // handle success

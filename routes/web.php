@@ -102,18 +102,31 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
     }); //Rutas para Administrador
         
     Route::group(['middleware' => ['Vendedor']], function(){
+        Route::get('/usuario', 'UserController@index');
+        Route::post('/usuario/registrar', 'UserController@store');
+        Route::post('/usuario/actualizar', 'UserController@update');
+        Route::put('/usuario/desactivar', 'UserController@desactivar');
+        Route::put('/usuario/activar', 'UserController@activar');
+
+        Route::get('/rol', 'RolController@index');
+        Route::get('/rol/selectRol', 'RolController@selectRol');
+
+        Route::get('/producto', 'ProductoController@index');
+        Route::post('/producto/registrar', 'ProductoController@store');
+        Route::post('/producto/actualizar', 'ProductoController@update');
+        Route::put('/producto/desactivar', 'ProductoController@desactivar');
+        Route::put('/producto/activar', 'ProductoController@activar');
+        Route::get('/producto/buscarProducto', 'ProductoController@buscarProducto');
+        Route::get('/producto/listarProductos', 'ProductoController@listarProductos');
+        Route::get('/producto/listarInventarioModal', 'ProductoController@listarInventarioModal');
+        Route::get('/producto/listarInventario', 'ProductoController@listarInventario');
+
         Route::get('/cliente', 'ClienteController@index');
         Route::post('/cliente/registrar', 'ClienteController@store');
         Route::post('/cliente/actualizar', 'ClienteController@update');
         Route::put('/cliente/desactivar', 'ClienteController@desactivar');
         Route::put('/cliente/activar', 'ClienteController@activar');
-
-    }); //Rutas para Vendedor
-
-    Route::group(['middleware' => ['Almacenero']], function(){
-        
-        Route::get('/producto/buscarProducto', 'ProductoController@buscarProducto');
-        Route::get('/producto/listarProductos', 'ProductoController@listarProductos');
+        Route::get('/cliente/selectCliente', 'ClienteController@selectCliente');
 
         Route::get('/proveedor', 'ProveedorController@index');
         Route::post('/proveedor/registrar', 'ProveedorController@store');
@@ -134,6 +147,90 @@ Route::group(['middleware' => ['auth']], function(){ //Rutas para usuario autent
         Route::put('/ingreso/desactivar', 'IngresoController@desactivar');
         Route::get('/ingreso/obtenerCabezeraIngreso', 'IngresoController@obtenerCabezeraIngreso');
         Route::get('/ingreso/obtenerDetallesIngreso', 'IngresoController@obtenerDetallesIngreso');
+
+        Route::get('/venta', 'VentaController@index');
+        Route::post('/venta/registrar', 'VentaController@store');
+        Route::put('/venta/desactivar', 'VentaController@desactivar');
+        Route::get('/venta/obtenerCabezeraVenta', 'VentaController@obtenerCabezeraVenta');
+        Route::get('/venta/obtenerDetallesVenta', 'VentaController@obtenerDetallesVenta');
+        Route::get('/venta/generarNotaDeVenta/{id}', 'VentaController@generarNotaDeVenta')->name('notaDeVenta');
+
+        Route::get('/reporteVentas', 'ReportesController@reporteVentas')->name('reporteVentas');
+        Route::get('/reporteIngresos', 'ReportesController@reporteIngresos')->name('reporteIngresos');
+        Route::get('/reporteProductos', 'ReportesController@reporteProductos')->name('reporteProductos');
+        Route::get('/reporteInventario', 'ReportesController@reporteInventario')->name('reporteInventario');
+
+        Route::get('/estadisticaProductosMasVendidos', 'EstadisticasController@estadisticaProductosMasVendidos');
+        Route::get('/estadisticaClientesMasFieles', 'EstadisticasController@estadisticaClientesMasFieles');
+        Route::get('/estadisticaProveedoresMasSolicitados', 'EstadisticasController@estadisticaProveedoresMasSolicitados');
+        Route::get('/estadisticasFinancieras', 'EstadisticasController@estadisticasFinancieras');
+
+    }); //Rutas para Vendedor
+
+    Route::group(['middleware' => ['Almacenero']], function(){
+        
+        Route::get('/usuario', 'UserController@index');
+        Route::post('/usuario/registrar', 'UserController@store');
+        Route::post('/usuario/actualizar', 'UserController@update');
+        Route::put('/usuario/desactivar', 'UserController@desactivar');
+        Route::put('/usuario/activar', 'UserController@activar');
+
+        Route::get('/rol', 'RolController@index');
+        Route::get('/rol/selectRol', 'RolController@selectRol');
+
+        Route::get('/producto', 'ProductoController@index');
+        Route::post('/producto/registrar', 'ProductoController@store');
+        Route::post('/producto/actualizar', 'ProductoController@update');
+        Route::put('/producto/desactivar', 'ProductoController@desactivar');
+        Route::put('/producto/activar', 'ProductoController@activar');
+        Route::get('/producto/buscarProducto', 'ProductoController@buscarProducto');
+        Route::get('/producto/listarProductos', 'ProductoController@listarProductos');
+        Route::get('/producto/listarInventarioModal', 'ProductoController@listarInventarioModal');
+        Route::get('/producto/listarInventario', 'ProductoController@listarInventario');
+
+        Route::get('/cliente', 'ClienteController@index');
+        Route::post('/cliente/registrar', 'ClienteController@store');
+        Route::post('/cliente/actualizar', 'ClienteController@update');
+        Route::put('/cliente/desactivar', 'ClienteController@desactivar');
+        Route::put('/cliente/activar', 'ClienteController@activar');
+        Route::get('/cliente/selectCliente', 'ClienteController@selectCliente');
+
+        Route::get('/proveedor', 'ProveedorController@index');
+        Route::post('/proveedor/registrar', 'ProveedorController@store');
+        Route::post('/proveedor/actualizar', 'ProveedorController@update');
+        Route::put('/proveedor/desactivar', 'ProveedorController@desactivar');
+        Route::put('/proveedor/activar', 'ProveedorController@activar');
+        Route::get('/proveedor/selectProveedor', 'ProveedorController@selectProveedor');
+
+        Route::get('/almacen', 'AlmacenController@index');
+        Route::post('/almacen/registrar', 'AlmacenController@store');
+        Route::post('/almacen/actualizar', 'AlmacenController@update');
+        Route::put('/almacen/desactivar', 'AlmacenController@desactivar');
+        Route::put('/almacen/activar', 'AlmacenController@activar');
+        Route::get('/almacen/getAlmacenes', 'AlmacenController@getAlmacenes');
+
+        Route::get('/ingreso', 'IngresoController@index');
+        Route::post('/ingreso/registrar', 'IngresoController@store');
+        Route::put('/ingreso/desactivar', 'IngresoController@desactivar');
+        Route::get('/ingreso/obtenerCabezeraIngreso', 'IngresoController@obtenerCabezeraIngreso');
+        Route::get('/ingreso/obtenerDetallesIngreso', 'IngresoController@obtenerDetallesIngreso');
+
+        Route::get('/venta', 'VentaController@index');
+        Route::post('/venta/registrar', 'VentaController@store');
+        Route::put('/venta/desactivar', 'VentaController@desactivar');
+        Route::get('/venta/obtenerCabezeraVenta', 'VentaController@obtenerCabezeraVenta');
+        Route::get('/venta/obtenerDetallesVenta', 'VentaController@obtenerDetallesVenta');
+        Route::get('/venta/generarNotaDeVenta/{id}', 'VentaController@generarNotaDeVenta')->name('notaDeVenta');
+
+        Route::get('/reporteVentas', 'ReportesController@reporteVentas')->name('reporteVentas');
+        Route::get('/reporteIngresos', 'ReportesController@reporteIngresos')->name('reporteIngresos');
+        Route::get('/reporteProductos', 'ReportesController@reporteProductos')->name('reporteProductos');
+        Route::get('/reporteInventario', 'ReportesController@reporteInventario')->name('reporteInventario');
+
+        Route::get('/estadisticaProductosMasVendidos', 'EstadisticasController@estadisticaProductosMasVendidos');
+        Route::get('/estadisticaClientesMasFieles', 'EstadisticasController@estadisticaClientesMasFieles');
+        Route::get('/estadisticaProveedoresMasSolicitados', 'EstadisticasController@estadisticaProveedoresMasSolicitados');
+        Route::get('/estadisticasFinancieras', 'EstadisticasController@estadisticasFinancieras');
         
         
     }); //Rutas para Almacenero                        

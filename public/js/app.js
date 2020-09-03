@@ -2188,7 +2188,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     listarAlmacenes: function listarAlmacenes(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/almacen?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'almacen?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -2218,7 +2218,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/almacen/registrar', {
+      axios.post('almacen/registrar', {
         'nombre': this.nombre,
         'direccion': this.direccion,
         'latitud': this.posicion.lat,
@@ -2241,7 +2241,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/almacen/actualizar', {
+      axios.post('almacen/actualizar', {
         'id': this.idAlmacen,
         'nombre': this.nombre,
         'direccion': this.direccion,
@@ -2280,7 +2280,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this.$loading.show(_this.optionsLoadingOverlay);
 
           var me = _this;
-          axios.put('/almacen/desactivar', {
+          axios.put('almacen/desactivar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -2317,7 +2317,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this2.$loading.show(_this2.optionsLoadingOverlay);
 
           var me = _this2;
-          axios.put('/almacen/activar', {
+          axios.put('almacen/activar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -2695,10 +2695,21 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     }
   },
   methods: {
+    //Validar que el input solo acepte numeros y punto
+    isNumber: function isNumber(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     listarClientes: function listarClientes(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/cliente?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'cliente?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -2728,7 +2739,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/cliente/registrar', {
+      axios.post('cliente/registrar', {
         'nombres': this.nombres,
         'tipodocumento': this.tipoDocumento,
         'numdocumento': this.numDocumento,
@@ -2753,7 +2764,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/cliente/actualizar', {
+      axios.post('cliente/actualizar', {
         'id': this.idAlmacen,
         'nombres': this.nombres,
         'tipodocumento': this.tipoDocumento,
@@ -2794,7 +2805,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this.$loading.show(_this.optionsLoadingOverlay);
 
           var me = _this;
-          axios.put('/cliente/desactivar', {
+          axios.put('cliente/desactivar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -2831,7 +2842,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this2.$loading.show(_this2.optionsLoadingOverlay);
 
           var me = _this2;
-          axios.put('/cliente/activar', {
+          axios.put('cliente/activar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -3973,6 +3984,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
  //SweetAlert2
 
@@ -4021,6 +4043,8 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       errorIngreso: 0,
       //Array con los errores encontrados
       errorMostrarMsjIngreso: [],
+      //Validar el array de detalles antes de enviarlo al servidor
+      errorArrayDetalles: 0,
       pagination: {
         'total': 0,
         'current_page': 0,
@@ -4090,10 +4114,32 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     }
   },
   methods: {
+    //Validar que el input solo acepte numeros y punto
+    isNumberDecimal: function isNumberDecimal(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+
+      if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 46) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+    //Validar que el input solo acepte numeros y punto
+    isNumber: function isNumber(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     listarIngresos: function listarIngresos(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/ingreso?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'ingreso?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -4111,7 +4157,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     selectProveedor: function selectProveedor(search, loading) {
       var me = this;
       loading(true);
-      var url = '/proveedor/selectProveedor?filtro=' + search;
+      var url = 'proveedor/selectProveedor?filtro=' + search;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -4188,6 +4234,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       return '';
     },
     agregarDetalle: function agregarDetalle() {
+      this.errorArrayDetalles = 0;
       var me = this;
 
       if (me.idProducto == 0 || me.idAlmacen == 0 || me.cantidad == 0 || me.precio == 0) {} else {
@@ -4219,6 +4266,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       }
     },
     eliminarDetalle: function eliminarDetalle(index) {
+      this.errorArrayDetalles = 0;
       var me = this;
       me.arrayDetalles.splice(index, 1);
     },
@@ -4251,7 +4299,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     listarProductos: function listarProductos(buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/producto/listarProductos?' + 'buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'producto/listarProductos?' + 'buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -4291,15 +4339,36 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       return this.errorIngreso;
     },
+    validarArrayDetalles: function validarArrayDetalles() {
+      for (var i = 0; i < this.arrayDetalles.length; i++) {
+        if (this.arrayDetalles[i].cantidad <= 0) {
+          this.errorArrayDetalles = 1;
+          return true;
+        }
+
+        if (this.arrayDetalles[i].precio <= 0) {
+          this.errorArrayDetalles = 1;
+          return true;
+        }
+      }
+
+      this.errorArrayDetalles = 0;
+      return false;
+    },
     registrarIngreso: function registrarIngreso() {
       //Verificar las validaciones
       if (this.validarIngreso()) {
+        return;
+      } //Validar el array de detalles
+
+
+      if (this.validarArrayDetalles()) {
         return;
       }
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/ingreso/registrar', {
+      axios.post('ingreso/registrar', {
         'idproveedor': this.idProveedor,
         'totalcompra': this.totalCompra,
         'tipocomprobante': this.tipoComprobante,
@@ -4348,7 +4417,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this.$loading.show(_this.optionsLoadingOverlay);
 
           var me = _this;
-          axios.put('/ingreso/desactivar', {
+          axios.put('ingreso/desactivar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -4375,7 +4444,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     },
     getAlmacenes: function getAlmacenes() {
       var me = this;
-      var url = '/almacen/getAlmacenes';
+      var url = 'almacen/getAlmacenes';
       axios.get(url).then(function (response) {
         // handle success
         console.log(response);
@@ -4416,7 +4485,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       var me = this;
       me.listado = 2; //Obtener cabezera del Ingreso                
 
-      var url = '/ingreso/obtenerCabezeraIngreso?id=' + id;
+      var url = 'ingreso/obtenerCabezeraIngreso?id=' + id;
       axios.get(url).then(function (response) {
         // handle success
         console.log(response);
@@ -4432,7 +4501,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       }).then(function () {// always executed
       }); //Obtener detalles del Ingreso                
 
-      var url2 = '/ingreso/obtenerDetallesIngreso?id=' + id;
+      var url2 = 'ingreso/obtenerDetallesIngreso?id=' + id;
       axios.get(url2).then(function (response) {
         // handle success
         console.log(response);
@@ -4608,7 +4677,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     listarInventario: function listarInventario(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/producto/listarInventario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'producto/listarInventario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -4925,10 +4994,21 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     }
   },
   methods: {
+    //Validar que el input solo acepte numeros y punto
+    isNumberDecimal: function isNumberDecimal(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+
+      if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 46) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     listarProductos: function listarProductos(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/producto?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'producto?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -4970,7 +5050,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       formData.append('nombre', this.nombre);
       formData.append('descripcion', this.descripcion);
       formData.append('precio', this.precio);
-      axios.post('/producto/registrar', formData, config).then(function (response) {
+      axios.post('producto/registrar', formData, config).then(function (response) {
         loader.hide();
         me.cerrarModal();
         me.listarProductos(1, '', 'nombre');
@@ -5005,7 +5085,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       formData.append('nombre', this.nombre);
       formData.append('descripcion', this.descripcion);
       formData.append('precio', this.precio);
-      axios.post('/producto/actualizar', formData, config).then(function (response) {
+      axios.post('producto/actualizar', formData, config).then(function (response) {
         loader.hide();
         me.cerrarModal();
         me.listarProductos(1, '', 'nombre');
@@ -5038,7 +5118,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this.$loading.show(_this.optionsLoadingOverlay);
 
           var me = _this;
-          axios.put('/producto/desactivar', {
+          axios.put('producto/desactivar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -5075,7 +5155,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this2.$loading.show(_this2.optionsLoadingOverlay);
 
           var me = _this2;
-          axios.put('/producto/activar', {
+          axios.put('producto/activar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -5176,8 +5256,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
         this.errorMostrarMsjProducto.push("El campo Nombre no puede estar vacio.");
       }
 
-      if (this.precio == 0.0) {
-        this.errorMostrarMsjProducto.push("El campo Precio no puede estar vacio.");
+      if (this.precio <= 0) {
+        this.errorMostrarMsjProducto.push("El campo Precio debe ser mayor a 0.");
       }
       /*
       //Antes de validar convertimos la variable a numero ya sea entero o flotante 
@@ -5528,10 +5608,21 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     }
   },
   methods: {
+    //Validar que el input solo acepte numeros y punto
+    isNumber: function isNumber(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     listarProveedores: function listarProveedores(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/proveedor?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'proveedor?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -5561,7 +5652,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/proveedor/registrar', {
+      axios.post('proveedor/registrar', {
         'nombres': this.nombres,
         'tipodocumento': this.tipoDocumento,
         'numdocumento': this.numDocumento,
@@ -5588,7 +5679,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/proveedor/actualizar', {
+      axios.post('proveedor/actualizar', {
         'id': this.idAlmacen,
         'nombres': this.nombres,
         'tipodocumento': this.tipoDocumento,
@@ -5631,7 +5722,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this.$loading.show(_this.optionsLoadingOverlay);
 
           var me = _this;
-          axios.put('/proveedor/desactivar', {
+          axios.put('proveedor/desactivar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -5668,7 +5759,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this2.$loading.show(_this2.optionsLoadingOverlay);
 
           var me = _this2;
-          axios.put('/proveedor/activar', {
+          axios.put('proveedor/activar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -6491,10 +6582,21 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     }
   },
   methods: {
+    //Validar que el input solo acepte numeros y punto
+    isNumber: function isNumber(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     listarUsuarios: function listarUsuarios(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/usuario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'usuario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -6511,7 +6613,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     },
     selectRol: function selectRol() {
       var me = this;
-      var url = '/rol/selectRol';
+      var url = 'rol/selectRol';
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -6538,7 +6640,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/usuario/registrar', {
+      axios.post('usuario/registrar', {
         'nombres': this.nombres,
         'tipodocumento': this.tipoDocumento,
         'numdocumento': this.numDocumento,
@@ -6566,7 +6668,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/usuario/actualizar', {
+      axios.post('usuario/actualizar', {
         'id': this.idUsuario,
         'nombres': this.nombres,
         'tipodocumento': this.tipoDocumento,
@@ -6610,7 +6712,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this.$loading.show(_this.optionsLoadingOverlay);
 
           var me = _this;
-          axios.put('/usuario/desactivar', {
+          axios.put('usuario/desactivar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -6647,7 +6749,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this2.$loading.show(_this2.optionsLoadingOverlay);
 
           var me = _this2;
-          axios.put('/usuario/activar', {
+          axios.put('usuario/activar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -7329,7 +7431,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     listarVentas: function listarVentas(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/venta?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'venta?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -7347,7 +7449,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     selectCliente: function selectCliente(search, loading) {
       var me = this;
       loading(true);
-      var url = '/cliente/selectCliente?filtro=' + search;
+      var url = 'cliente/selectCliente?filtro=' + search;
       axios.get(url).then(function (response) {
         // handle success
         //console.log(response);
@@ -7470,7 +7572,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     listarInventario: function listarInventario(buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      var url = '/producto/listarInventarioModal' + '?buscar=' + buscar + '&criterio=' + criterio;
+      var url = 'producto/listarInventarioModal' + '?buscar=' + buscar + '&criterio=' + criterio;
       ;
       axios.get(url).then(function (response) {
         // handle success
@@ -7546,7 +7648,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
 
       var loader = this.$loading.show(this.optionsLoadingOverlay);
       var me = this;
-      axios.post('/venta/registrar', {
+      axios.post('venta/registrar', {
         'idcliente': this.idCliente,
         'total': this.total,
         'numcomprobante': this.numComprobante,
@@ -7595,7 +7697,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
           var loader = _this.$loading.show(_this.optionsLoadingOverlay);
 
           var me = _this;
-          axios.put('/venta/desactivar', {
+          axios.put('venta/desactivar', {
             'id': id
           }).then(function (response) {
             loader.hide();
@@ -7647,7 +7749,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       var me = this;
       me.listado = 2; //Obtener cabezera del Ingreso                
 
-      var url = '/venta/obtenerCabezeraVenta?id=' + id;
+      var url = 'venta/obtenerCabezeraVenta?id=' + id;
       axios.get(url).then(function (response) {
         // handle success
         console.log(response);
@@ -7663,7 +7765,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_loading_overlay__WEBPACK_IMPO
       }).then(function () {// always executed
       }); //Obtener detalles del venta                
 
-      var url2 = '/venta/obtenerDetallesVenta?id=' + id;
+      var url2 = 'venta/obtenerDetallesVenta?id=' + id;
       axios.get(url2).then(function (response) {
         // handle success
         console.log(response);
@@ -71647,6 +71749,9 @@ var render = function() {
                           },
                           domProps: { value: _vm.numDocumento },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumber($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -71723,6 +71828,9 @@ var render = function() {
                           attrs: { type: "text", placeholder: "Telefono" },
                           domProps: { value: _vm.telefono },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumber($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -73008,6 +73116,9 @@ var render = function() {
                           },
                           domProps: { value: _vm.precio },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumberDecimal($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -73053,6 +73164,9 @@ var render = function() {
                           attrs: { type: "number", value: "0", min: "1" },
                           domProps: { value: _vm.cantidad },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumber($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -73139,6 +73253,23 @@ var render = function() {
                                       }),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c(
+                                          "span",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value: detalle.precio <= 0,
+                                                expression:
+                                                  "detalle.precio <= 0"
+                                              }
+                                            ],
+                                            staticClass: "text-error"
+                                          },
+                                          [_vm._v("(*Precio mayor a 0)")]
+                                        ),
+                                        _vm._v(" "),
                                         _c("input", {
                                           directives: [
                                             {
@@ -73149,9 +73280,16 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "3" },
+                                          attrs: {
+                                            type: "number",
+                                            value: "0",
+                                            min: "1"
+                                          },
                                           domProps: { value: detalle.precio },
                                           on: {
+                                            keypress: function($event) {
+                                              return _vm.isNumberDecimal($event)
+                                            },
                                             input: function($event) {
                                               if ($event.target.composing) {
                                                 return
@@ -73167,6 +73305,23 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c(
+                                          "span",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value: detalle.cantidad <= 0,
+                                                expression:
+                                                  "detalle.cantidad <= 0"
+                                              }
+                                            ],
+                                            staticClass: "text-error"
+                                          },
+                                          [_vm._v("(*Cantidad mayor a  0)")]
+                                        ),
+                                        _vm._v(" "),
                                         _c("input", {
                                           directives: [
                                             {
@@ -73177,9 +73332,16 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "2" },
+                                          attrs: {
+                                            type: "number",
+                                            value: "0",
+                                            min: "1"
+                                          },
                                           domProps: { value: detalle.cantidad },
                                           on: {
+                                            keypress: function($event) {
+                                              return _vm.isNumber($event)
+                                            },
                                             input: function($event) {
                                               if ($event.target.composing) {
                                                 return
@@ -73237,6 +73399,30 @@ var render = function() {
                         ]
                       )
                     ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errorArrayDetalles == 1,
+                            expression: "errorArrayDetalles == 1"
+                          }
+                        ],
+                        staticClass: "form-group row div-error"
+                      },
+                      [
+                        _c("div", { staticClass: "text-center text-error" }, [
+                          _vm._v(
+                            "\n                                Porfavor corrija los errores en el Detalle del Ingreso\n                            "
+                          )
+                        ])
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row" }, [
@@ -74639,6 +74825,9 @@ var render = function() {
                           },
                           domProps: { value: _vm.precio },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumberDecimal($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -75346,6 +75535,9 @@ var render = function() {
                           },
                           domProps: { value: _vm.numDocumento },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumber($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -75422,6 +75614,9 @@ var render = function() {
                           attrs: { type: "text", placeholder: "Telefono" },
                           domProps: { value: _vm.telefono },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumber($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -75533,6 +75728,9 @@ var render = function() {
                           },
                           domProps: { value: _vm.telefonoContacto },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumber($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -76939,6 +77137,9 @@ var render = function() {
                           },
                           domProps: { value: _vm.numDocumento },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumber($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -77015,6 +77216,9 @@ var render = function() {
                           attrs: { type: "text", placeholder: "Telefono" },
                           domProps: { value: _vm.telefono },
                           on: {
+                            keypress: function($event) {
+                              return _vm.isNumber($event)
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return

@@ -136,7 +136,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Precio</label>
                                 <div class="col-md-9">
-                                    <input type="number" v-model="precio" class="form-control" placeholder="Precio del Producto">
+                                    <input type="number" v-model="precio" @keypress="isNumberDecimal($event)" class="form-control" placeholder="Precio del Producto">
                                     <span class="help-block">(*) Ingrese el precio del Producto</span>
                                 </div>
                             </div>                            
@@ -280,12 +280,23 @@
         },
 
         methods: {
+            //Validar que el input solo acepte numeros y punto
+            isNumberDecimal: function(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
+            },
+
             listarProductos(page, buscar, criterio) {
                 let loader = this.$loading.show(this.optionsLoadingOverlay);
 
                 let me = this;
 
-                var url = '/producto?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url = 'producto?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -343,7 +354,7 @@
                 formData.append('precio', this.precio);                      
 
                 axios.post(
-                    '/producto/registrar', 
+                    'producto/registrar', 
                     formData,
                     config                 
                 ).then(function (response) {
@@ -392,7 +403,7 @@
                 formData.append('precio', this.precio);                
                                                
                 axios.post(
-                    '/producto/actualizar',
+                    'producto/actualizar',
                     formData,
                     config                                        
                 ).then(function (response) {
@@ -436,7 +447,7 @@
                         let me = this;
 
                         axios.put(
-                            '/producto/desactivar',
+                            'producto/desactivar',
                             {
                                 'id': id
                             }                                                                   
@@ -489,7 +500,7 @@
                         let me = this;
 
                         axios.put(
-                            '/producto/activar',
+                            'producto/activar',
                             {
                                 'id': id
                             }                                                                   
@@ -611,8 +622,8 @@
                     this.errorMostrarMsjProducto.push("El campo Nombre no puede estar vacio.");
                 }
 
-                if (this.precio == 0.0) {
-                    this.errorMostrarMsjProducto.push("El campo Precio no puede estar vacio.");
+                if (this.precio <= 0) {
+                    this.errorMostrarMsjProducto.push("El campo Precio debe ser mayor a 0.");
                 }
 
                 /*
@@ -622,7 +633,6 @@
                     this.errorMostrarMsjProducto.push("El campo Stock debe ser un numero entero.");
                 }
                 */
-
 
                 //Si es para la vista Actualizar
                 if (this.tipoAccion == 2) {

@@ -161,13 +161,13 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Precio <span style="color: red;" v-show="precio==0">(*Ingrese)</span></label>
-                                    <input type="number" value="0" step="any" class="form-control" v-model="precio" min="1">
+                                    <input type="number" value="0" step="any" class="form-control" min="1" v-model="precio" @keypress="isNumberDecimal($event)">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Cantidad <span style="color: red;" v-show="cantidad==0">(*Ingrese)</span></label>
-                                    <input type="number" value="0" class="form-control" v-model="cantidad" min="1">
+                                    <input type="number" value="0" class="form-control" min="1" v-model="cantidad" @keypress="isNumber($event)">
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -198,10 +198,12 @@
                                             <td v-text="detalle.producto"></td>
                                             <td v-text="detalle.almacen"></td>
                                             <td>
-                                                <input v-model="detalle.precio" type="number" value="3" class="form-control">
+                                                <span class="text-error" v-show="detalle.precio <= 0">(*Precio mayor a 0)</span>
+                                                <input v-model="detalle.precio" @keypress="isNumberDecimal($event)" type="number" value="0" class="form-control" min="1">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.cantidad" type="number" value="2" class="form-control">
+                                                <span class="text-error" v-show="detalle.cantidad <= 0">(*Cantidad mayor a  0)</span>
+                                                <input v-model="detalle.cantidad" @keypress="isNumber($event)" type="number" value="0" class="form-control" min="1">
                                             </td>
                                             <td>
                                                 {{(detalle.precio * detalle.cantidad).toFixed(2)}}
@@ -221,6 +223,15 @@
                                 </table>
                             </div>
                         </div>
+                        
+                        <div class="col-md-12">
+                            <div v-show="errorArrayDetalles == 1" class="form-group row div-error">
+                                <div class="text-center text-error">
+                                    Porfavor corrija los errores en el Detalle del Ingreso
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>
@@ -451,6 +462,9 @@
                 //Array con los errores encontrados
                 errorMostrarMsjIngreso: [],
 
+                //Validar el array de detalles antes de enviarlo al servidor
+                errorArrayDetalles: 0,
+
                 pagination: {
                     'total': 0,
                     'current_page': 0,
@@ -521,13 +535,35 @@
             },
         },
 
-        methods: {                                
+        methods: {
+             //Validar que el input solo acepte numeros y punto
+            isNumberDecimal: function(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
+            },
+
+            //Validar que el input solo acepte numeros y punto
+            isNumber: function(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+                    evt.preventDefault();
+                } else {
+                    return true;
+                }
+            },
+
             listarIngresos(page, buscar, criterio) {
                 let loader = this.$loading.show(this.optionsLoadingOverlay);
                 
                 let me = this;
 
-                var url = '/ingreso?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url = 'ingreso?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -556,7 +592,7 @@
 
                 loading(true);
 
-                var url = '/proveedor/selectProveedor?filtro=' + search;
+                var url = 'proveedor/selectProveedor?filtro=' + search;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -647,6 +683,8 @@
             },
 
             agregarDetalle() {
+                this.errorArrayDetalles = 0;
+
                 let me = this;
                 if (me.idProducto == 0 || me.idAlmacen == 0 || me.cantidad == 0 || me.precio ==0) {
                     
@@ -681,6 +719,8 @@
             },
             
             eliminarDetalle(index) {
+                this.errorArrayDetalles = 0;
+
                 let me = this;
                 me.arrayDetalles.splice(index, 1);
             },
@@ -721,7 +761,7 @@
 
                 let me = this;
 
-                var url = '/producto/listarProductos?' + 'buscar=' + buscar + '&criterio=' + criterio;
+                var url = 'producto/listarProductos?' + 'buscar=' + buscar + '&criterio=' + criterio;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -769,11 +809,31 @@
                 }
 
                 return this.errorIngreso;
-            },    
+            },
+
+            validarArrayDetalles() {
+                for (let i = 0; i < this.arrayDetalles.length; i++) {
+                    if (this.arrayDetalles[i].cantidad <= 0) {
+                        this.errorArrayDetalles = 1;
+                        return true;                        
+                    }                                        
+                    if (this.arrayDetalles[i].precio <= 0) {
+                        this.errorArrayDetalles = 1;
+                        return true;
+                    }                                     
+                }
+                this.errorArrayDetalles = 0;
+                return false;
+            },
 
             registrarIngreso() {                
                 //Verificar las validaciones
                 if (this.validarIngreso()) {
+                    return;
+                }
+
+                //Validar el array de detalles
+                if (this.validarArrayDetalles()) {
                     return;
                 }
 
@@ -782,7 +842,7 @@
                 let me = this;                                       
 
                 axios.post(
-                    '/ingreso/registrar',
+                    'ingreso/registrar',
                     {
                         'idproveedor': this.idProveedor,
                         'totalcompra': this.totalCompra,
@@ -842,7 +902,7 @@
                         let me = this;
 
                         axios.put(
-                            '/ingreso/desactivar',
+                            'ingreso/desactivar',
                             {
                                 'id': id
                             }                                                                   
@@ -889,7 +949,7 @@
             getAlmacenes() {
                 let me = this;
 
-                var url = '/almacen/getAlmacenes';
+                var url = 'almacen/getAlmacenes';
                 
                 axios.get(url)
                     .then(function (response) {
@@ -949,7 +1009,7 @@
                 me.listado = 2;
 
                 //Obtener cabezera del Ingreso                
-                var url = '/ingreso/obtenerCabezeraIngreso?id=' + id;
+                var url = 'ingreso/obtenerCabezeraIngreso?id=' + id;
                 axios.get(url)
                     .then(function (response) {
                         // handle success
@@ -975,7 +1035,7 @@
 
 
                 //Obtener detalles del Ingreso                
-                var url2 = '/ingreso/obtenerDetallesIngreso?id=' + id;
+                var url2 = 'ingreso/obtenerDetallesIngreso?id=' + id;
                 axios.get(url2)
                     .then(function (response) {
                         // handle success

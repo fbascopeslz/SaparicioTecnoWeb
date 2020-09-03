@@ -286,7 +286,7 @@
 
                 let me = this;
 
-                var url = '/almacen?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url = 'almacen?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -331,7 +331,7 @@
                 let me = this;                                       
 
                 axios.post(
-                    '/almacen/registrar',
+                    'almacen/registrar',
                     {
                         'nombre': this.nombre,
                         'direccion': this.direccion,
@@ -365,7 +365,7 @@
                 let me = this;
             
                 axios.post(
-                    '/almacen/actualizar',
+                    'almacen/actualizar',
                     {
                         'id': this.idAlmacen,
                         'nombre': this.nombre,
@@ -413,7 +413,7 @@
                         let me = this;
 
                         axios.put(
-                            '/almacen/desactivar',
+                            'almacen/desactivar',
                             {
                                 'id': id
                             }                                                                   
@@ -465,7 +465,7 @@
                         let me = this;
 
                         axios.put(
-                            '/almacen/activar',
+                            'almacen/activar',
                             {
                                 'id': id
                             }                                                                   
